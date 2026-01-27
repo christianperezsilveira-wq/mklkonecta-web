@@ -1,0 +1,162 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #FFFFFF;
+    /* White background as requested */
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.card {
+    display: flex;
+    width: 100%;
+    max-width: 1100px;
+    height: 650px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+
+.leftPanel {
+    flex: 1.2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+    color: white;
+    background-color: #F5F5F5;
+    /* Fallback light color */
+}
+
+.rightPanel {
+    flex: 0.8;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+.formContainer {
+    width: 100%;
+    max-width: 360px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #111;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #333;
+    letter-spacing: 0.05em;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.helpText {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.contactLink {
+    display: block;
+    margin-top: 0.25rem;
+    color: #111;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.contactLink:hover {
+    color: var(--color-primary);
+}
+
+.logoIcon {
+    width: 40px;
+    height: 48px;
+    background: #FF0000;
+    margin-bottom: 2rem;
+    clip-path: polygon(0 0, 100% 0, 100% 65%, 65% 65%, 65% 100%, 0 100%);
+}
+
+.brandTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.brandSubtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+    .card {
+        flex-direction: column;
+        height: auto;
+        max-width: 500px;
+    }
+
+    .leftPanel {
+        display: none;
+    }
+
+    .rightPanel {
+        padding: 3rem 2rem;
+    }
+}

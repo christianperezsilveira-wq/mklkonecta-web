@@ -1,0 +1,130 @@
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: #0A0A0A;
+    /* Dark almost black background */
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #222;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 20;
+    color: #9CA3AF;
+}
+
+.logoContainer {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #222;
+}
+
+.logoMain {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+}
+
+.logoIcon {
+    width: 24px;
+    height: 24px;
+    background-color: #E60000;
+    clip-path: polygon(0 0, 100% 0, 100% 60%, 60% 60%, 60% 100%, 0 100%);
+    display: inline-block;
+}
+
+.logoSubtitle {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #E60000;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: 2rem;
+    /* Align with text */
+}
+
+.nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    gap: 0.5rem;
+    overflow-y: auto;
+}
+
+.categoryTitle {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #555;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin: 1.5rem 0 0.5rem 0.5rem;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    color: #9CA3AF;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.navItem:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.active {
+    background-color: #E60000;
+    color: white;
+    box-shadow: 0 4px 12px rgba(230, 0, 0, 0.3);
+}
+
+.active:hover {
+    background-color: #D40000;
+}
+
+.navIcon {
+    font-size: 1.1rem;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer {
+    padding: 1rem;
+    border-top: 1px solid #222;
+    margin-top: auto;
+}
+
+.logoutButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #BBB;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logoutButton:hover {
+    border-color: #E60000;
+    color: #E60000;
+    background: rgba(230, 0, 0, 0.05);
+}
