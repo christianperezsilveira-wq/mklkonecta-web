@@ -46,7 +46,7 @@ export default function LoginPage() {
                 router.refresh();
             }
         } catch (err) {
-            setError("Algo salió mal");
+            setError(err instanceof Error ? err.message : "Algo salió mal (Error desconocido)");
             setLoading(false);
         }
     };
