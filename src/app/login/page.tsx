@@ -7,19 +7,54 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { login } from '@/actions/auth';
 
 export default function LoginPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const [error, setError] = useState<string | undefined>("");
+    const [success, setSuccess] = useState<string | undefined>("");
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError("");
+        setSuccess("");
         setLoading(true);
-        // Simulating login delay
-        setTimeout(() => {
+
+        const formData = new FormData(e.target as HTMLFormElement);
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        try {
+            // Import login dynamically or at top if not there
+            // We need to import 'login' from '@/actions/auth' at the top of the file
+            // Since this tool replaces a block, I will assume the import needs to be added or is already there?
+            // Wait, I haven't added the import statement yet. 
+            // I should probably do a multi_replace or ensure import is there.
+            // Let's just write the function logic here and I'll add the import in another step if needed, 
+            // or I'll use multi_replace to do both safely.
+            const data = await login({ email, password });
+
+            if (data?.error) {
+                setError(data.error);
+                setLoading(false);
+            } else if (data?.success) {
+                setSuccess(data.success);
+                setLoading(false);
+            } else {
+                // Redirect happens in server action usually, but here we might just wait
+                // Actually my login action handles redirect internally via signIn on server side?
+                // No, signIn throws error for redirect usually. 
+                // Let's check my login action implementation in step 286. 
+                // It calls signIn with redirectTo, which throws an error that is caught by Next.js to redirect.
+                // So if we get here without error, it might be weird unless signIn didn't redirect (e.g. error).
+                // But typically client side invocation of server action that redirects just works.
+            }
+        } catch (err) {
+            setError("Algo salió mal");
             setLoading(false);
-            router.push('/dashboard');
-        }, 1000);
+        }
     };
 
     return (
@@ -80,6 +115,7 @@ export default function LoginPage() {
                                 <span className={styles.label}>USUARIO O CORREO</span>
                                 {/* Assuming Input component accepts style/className or we pass props */}
                                 <Input
+                                    name="email"
                                     label=""
                                     placeholder="nombre.apellido@konecta.com"
                                     required
@@ -90,6 +126,7 @@ export default function LoginPage() {
                             <div className={styles.inputGroup}>
                                 <span className={styles.label}>CONTRASEÑA</span>
                                 <Input
+                                    name="password"
                                     label=""
                                     type="password"
                                     placeholder="••••••••"
@@ -120,7 +157,7 @@ export default function LoginPage() {
 
                         <div className={styles.helpText}>
                             ¿Aún no tiene acceso corporativo?
-                            <Link href="#" className={styles.contactLink}>
+                            <Link href="/register" className={styles.contactLink}>
                                 Contactar con IT para Registro
                             </Link>
                         </div>

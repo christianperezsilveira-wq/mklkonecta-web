@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
 
+import { logout } from '@/actions/auth';
+
 const menuGroups = [
     {
         title: null, // Top level items
@@ -45,7 +47,7 @@ const menuGroups = [
     }
 ];
 
-export const Sidebar = () => {
+export const Sidebar = ({ userRole }: { userRole?: string }) => {
     const pathname = usePathname();
 
     return (
@@ -69,6 +71,16 @@ export const Sidebar = () => {
                     Dashboard
                 </Link>
 
+                {userRole === 'ADMIN' && (
+                    <Link
+                        href="/dashboard/users"
+                        className={`${styles.navItem} ${pathname === '/dashboard/users' ? styles.active : ''}`}
+                    >
+                        <span className={styles.navIcon}>👥</span>
+                        Usuarios
+                    </Link>
+                )}
+
                 <div className={styles.categoryTitle}>Herramientas</div>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>🛠️</span> Herramientas</Link>
 
@@ -84,11 +96,15 @@ export const Sidebar = () => {
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📅</span> Mi Horario</Link>
             </nav>
 
+
+
             {/* Footer / Logout */}
             <div className={styles.footer}>
-                <button className={styles.logoutButton}>
-                    <span>↩️</span> Cerrar Sesión
-                </button>
+                <form action={logout}>
+                    <button type="submit" className={styles.logoutButton}>
+                        <span>↩️</span> Cerrar Sesión
+                    </button>
+                </form>
             </div>
         </aside>
     );
