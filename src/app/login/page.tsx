@@ -41,15 +41,9 @@ export default function LoginPage() {
                 setLoading(false);
             } else if (data?.success) {
                 setSuccess(data.success);
-                setLoading(false);
-            } else {
-                // Redirect happens in server action usually, but here we might just wait
-                // Actually my login action handles redirect internally via signIn on server side?
-                // No, signIn throws error for redirect usually. 
-                // Let's check my login action implementation in step 286. 
-                // It calls signIn with redirectTo, which throws an error that is caught by Next.js to redirect.
-                // So if we get here without error, it might be weird unless signIn didn't redirect (e.g. error).
-                // But typically client side invocation of server action that redirects just works.
+                // Keep loading state true while redirecting to prevent interactions
+                router.push("/dashboard");
+                router.refresh();
             }
         } catch (err) {
             setError("Algo salió mal");

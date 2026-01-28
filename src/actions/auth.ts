@@ -50,8 +50,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         await signIn("credentials", {
             email,
             password,
-            redirectTo: "/dashboard",
+            redirect: false,
         });
+        return { success: "Inicio de sesión correcto" };
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
