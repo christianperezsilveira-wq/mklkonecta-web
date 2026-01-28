@@ -2,6 +2,9 @@ import React from 'react';
 import styles from './dashboard.module.css';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 const tools = [
     { name: 'CRM Interno', desc: 'Gestión de Clientes', icon: '⚡' },
     { name: 'Telefonía Cloud', desc: 'Sistemas Avaya', icon: '📞' },
