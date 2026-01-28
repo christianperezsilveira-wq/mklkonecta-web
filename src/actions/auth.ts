@@ -30,23 +30,23 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
     const { email, password } = validatedFields.data;
 
-    const existingUser = await db.user.findUnique({ where: { email } });
-
-    if (!existingUser || !existingUser.email || !existingUser.password) {
-        return { error: "Email no existe!" };
-    }
-
-    if (!existingUser.emailVerified) {
-        const verificationToken = await generateVerificationToken(existingUser.email);
-        await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
-        return { success: "¡Cuenta no verificada! Te enviamos un nuevo correo." };
-    }
-
-    if (!existingUser.isApproved) {
-        return { error: "Tu cuenta está pendiente de aprobación por un administrador." };
-    }
-
     try {
+        const existingUser = await db.user.findUnique({ where: { email } });
+
+        if (!existingUser || !existingUser.email || !existingUser.password) {
+            return { error: "Email no existe!" };
+        }
+
+        if (!existingUser.emailVerified) {
+            const verificationToken = await generateVerificationToken(existingUser.email);
+            await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
+            return { success: "¡Cuenta no verificada! Te enviamos un nuevo correo." };
+        }
+
+        if (!existingUser.isApproved) {
+            return { error: "Tu cuenta está pendiente de aprobación por un administrador." };
+        }
+
         await signIn("credentials", {
             email,
             password,
@@ -54,12 +54,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         });
         return { success: "Inicio de sesión correcto" };
     } catch (error) {
+        console.error("LOGIN ERROR:", error); // Log to server console for Vercel logs
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":
                     return { error: "Credenciales inválidas" };
                 default:
-                    // Return the specific error message for debugging
                     return { error: `Error: ${error.message}` };
             }
         }
