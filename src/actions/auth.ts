@@ -59,10 +59,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
                 case "CredentialsSignin":
                     return { error: "Credenciales inválidas" };
                 default:
-                    return { error: "Algo salió mal" };
+                    // Return the specific error message for debugging
+                    return { error: `Error: ${error.message}` };
             }
         }
-        throw error;
+        // Also capture non-AuthErrors
+        return { error: `System Error: ${error instanceof Error ? error.message : "Unknown"}` };
     }
 };
 
