@@ -23,7 +23,8 @@ async function main() {
         where: { email },
         data: {
             role: "ADMIN",
-            isApproved: true
+            isApproved: true,
+            emailVerified: new Date()
         }
     });
 

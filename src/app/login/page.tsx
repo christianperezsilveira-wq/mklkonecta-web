@@ -145,13 +145,41 @@ export default function LoginPage() {
                                 </Link>
                             </div>
 
+                            {error && (
+                                <div style={{
+                                    padding: '0.75rem',
+                                    backgroundColor: '#FEF2F2',
+                                    color: '#DC2626',
+                                    borderRadius: '6px',
+                                    marginTop: '1rem',
+                                    fontSize: '0.875rem',
+                                    border: '1px solid #FCA5A5'
+                                }}>
+                                    ⚠️ {error}
+                                </div>
+                            )}
+
+                            {success && (
+                                <div style={{
+                                    padding: '0.75rem',
+                                    backgroundColor: '#ECFDF5',
+                                    color: '#059669',
+                                    borderRadius: '6px',
+                                    marginTop: '1rem',
+                                    fontSize: '0.875rem',
+                                    border: '1px solid #6EE7B7'
+                                }}>
+                                    ✅ {success}
+                                </div>
+                            )}
+
                             <Button
                                 variant="primary"
                                 fullWidth
                                 disabled={loading}
                                 style={{ backgroundColor: '#FF0000', height: '48px', borderRadius: '6px', marginTop: '1rem' }}
                             >
-                                {loading ? 'Acceder al Portal' : 'Acceder al Portal'}
+                                {loading ? 'Cargando...' : 'Acceder al Portal'}
                             </Button>
                         </form>
 
