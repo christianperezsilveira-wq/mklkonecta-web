@@ -40,8 +40,10 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
         if (!existingUser.emailVerified) {
             const verificationToken = await generateVerificationToken(existingUser.email);
-            await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
-            return { success: "¡Cuenta no verificada! Te enviamos un nuevo correo." };
+            // await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
+            // return { success: "¡Cuenta no verificada! Te enviamos un nuevo correo." };
+            // For now, allow login if verified logic is not strictly enforced or just return error
+            return { error: "Cuenta no verificada. Revisa tu correo." };
         }
 
         if (!existingUser.isApproved) {
@@ -53,19 +55,24 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
             password,
             redirect: false,
         });
+
         return { success: "Inicio de sesión correcto" };
     } catch (error) {
-        console.error("LOGIN ERROR:", error); // Log to server console for Vercel logs
+        console.error("LOGIN ERROR:", error);
+
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":
                     return { error: "Credenciales inválidas" };
                 default:
-                    return { error: `Error: ${error.message}` };
+                    return { error: "Algo salió mal al iniciar sesión" };
             }
         }
-        // Also capture non-AuthErrors
-        return { error: `System Error: ${error instanceof Error ? error.message : "Unknown"}` };
+
+        // NextJS Redirects are thrown as errors, we need to let them pass or handle if redirect: false
+        // But since we used redirect: false, signIn shouldn't throw Redirect.
+
+        return { error: `Error del sistema: ${error instanceof Error ? error.message : "Desconocido"}` };
     }
 };
 
