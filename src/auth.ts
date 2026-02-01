@@ -24,18 +24,23 @@ export const {
     providers: [
         Credentials({
             async authorize(credentials) {
-                const validatedFields = LoginSchema.safeParse(credentials);
+                try {
+                    const validatedFields = LoginSchema.safeParse(credentials);
 
-                if (validatedFields.success) {
-                    const { email, password } = validatedFields.data;
+                    if (validatedFields.success) {
+                        const { email, password } = validatedFields.data;
 
-                    const user = await db.user.findUnique({ where: { email } });
-                    if (!user || !user.password) return null;
+                        const user = await db.user.findUnique({ where: { email } });
+                        if (!user || !user.password) return null;
 
-                    const passwordsMatch = await bcrypt.compare(password, user.password);
-                    if (passwordsMatch) return user;
+                        const passwordsMatch = await bcrypt.compare(password, user.password);
+                        if (passwordsMatch) return user;
+                    }
+                    return null;
+                } catch (error) {
+                    console.error("Auth Error:", error);
+                    return null;
                 }
-                return null;
             },
         }),
     ],
