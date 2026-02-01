@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendVerificationEmail, sendPendingApprovalEmail } from "@/lib/mail";
 
 // Schema de Validación
 const RegisterSchema = z.object({
@@ -96,10 +96,11 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         },
     });
 
-    const verificationToken = await generateVerificationToken(email);
-    await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
+    // const verificationToken = await generateVerificationToken(email);
+    // await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
+    await sendPendingApprovalEmail(email, name);
 
-    return { success: "¡Correo de confirmación enviado!" };
+    return { success: "¡Cuenta creada! Esperando aprobación del administrador." };
 };
 
 export const newVerification = async (token: string) => {

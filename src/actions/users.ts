@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { sendApprovalEmail } from "@/lib/mail";
 
 // 🔒 Verificar que el usuario sea ADMIN
 const checkAdmin = async () => {
@@ -46,10 +47,14 @@ export const toggleUserApproval = async (userId: string, currentStatus: boolean)
             data.emailVerified = new Date();
         }
 
-        await db.user.update({
+        const updatedUser = await db.user.update({
             where: { id: userId },
             data
         });
+
+        if (newStatus && updatedUser.email) {
+            await sendApprovalEmail(updatedUser.email, updatedUser.name || "Usuario");
+        }
         revalidatePath("/dashboard/users");
         return { success: "Estado actualizado correctamente" };
     } catch (error) {
