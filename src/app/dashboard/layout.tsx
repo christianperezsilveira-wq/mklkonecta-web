@@ -15,7 +15,7 @@ export default async function DashboardLayout({
         <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F7F9' }}>
             <Sidebar userRole={session?.user?.role} />
             <div style={{ flex: 1, marginLeft: '260px', display: 'flex', flexDirection: 'column' }}>
-                <Header />
+                <Header user={session?.user} />
                 <main style={{ padding: '2rem', flex: 1 }}>
                     {children}
                 </main>
