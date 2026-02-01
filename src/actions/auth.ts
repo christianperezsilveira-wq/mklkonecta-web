@@ -28,7 +28,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         return { error: "Campos inválidos" };
     }
 
-    const { email, password } = validatedFields.data;
+    const { email: rawEmail, password } = validatedFields.data;
+    const email = rawEmail.toLowerCase();
 
     try {
         const existingUser = await db.user.findUnique({ where: { email } });
@@ -75,7 +76,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         return { error: "Campos inválidos" };
     }
 
-    const { email, password, name } = validatedFields.data;
+    const { email: rawEmail, password, name } = validatedFields.data;
+    const email = rawEmail.toLowerCase();
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const existingUser = await db.user.findUnique({

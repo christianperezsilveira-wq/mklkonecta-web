@@ -37,9 +37,18 @@ export const getUsers = async () => {
 export const toggleUserApproval = async (userId: string, currentStatus: boolean) => {
     try {
         await checkAdmin();
+        const newStatus = !currentStatus;
+
+        // Si se está aprobando al usuario, también verificamos su email automáticamente
+        // para evitar que el usuario quede bloqueado si el correo no llegó.
+        const data: any = { isApproved: newStatus };
+        if (newStatus) {
+            data.emailVerified = new Date();
+        }
+
         await db.user.update({
             where: { id: userId },
-            data: { isApproved: !currentStatus }
+            data
         });
         revalidatePath("/dashboard/users");
         return { success: "Estado actualizado correctamente" };
