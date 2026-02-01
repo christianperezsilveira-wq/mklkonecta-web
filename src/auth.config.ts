@@ -44,15 +44,37 @@ export const authConfig = {
         async session({ session, token }) {
             if (token.sub && session.user) {
                 session.user.id = token.sub;
-            }
-            if (token.role && session.user) {
                 session.user.role = token.role as string;
+
+                // 🚀 Fetch fresh data from DB to ensure updates are reflected
+                // despite the JWT strategy.
+                try {
+                    const freshUser = await db.user.findUnique({
+                        where: { id: token.sub },
+                        select: { name: true, image: true, role: true }
+                    });
+
+                    if (freshUser) {
+                        session.user.name = freshUser.name;
+                        session.user.image = freshUser.image;
+                        session.user.role = freshUser.role; // Ensure role is also fresh
+                    }
+                } catch (error) {
+                    console.error("Error fetching fresh user data:", error);
+                }
             }
             return session;
         },
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
+                token.sub = user.id;
                 token.role = user.role;
+            }
+
+            // Support manual trigger update if needed
+            if (trigger === "update" && session) {
+                token.name = session.user.name;
+                token.role = session.user.role;
             }
             return token;
         }
