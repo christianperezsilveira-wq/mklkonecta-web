@@ -27,24 +27,11 @@ export default function LoginPage() {
         const password = formData.get("password") as string;
 
         try {
-            // Import login dynamically or at top if not there
-            // We need to import 'login' from '@/actions/auth' at the top of the file
-            // Since this tool replaces a block, I will assume the import needs to be added or is already there?
-            // Wait, I haven't added the import statement yet. 
-            // I should probably do a multi_replace or ensure import is there.
-            // Let's just write the function logic here and I'll add the import in another step if needed, 
-            // or I'll use multi_replace to do both safely.
             const data = await login({ email, password });
 
             if (data?.error) {
-                const message = data.debug ? `${data.error} (${data.debug})` : data.error;
-                setError(message);
+                setError(data.error);
                 setLoading(false);
-            } else if (data?.success) {
-                setSuccess(data.success);
-                // Keep loading state true while redirecting to prevent interactions
-                router.push("/dashboard");
-                router.refresh();
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : "Algo salió mal (Error desconocido)");
@@ -151,26 +138,6 @@ export default function LoginPage() {
                                     border: '1px solid #FCA5A5'
                                 }}>
                                     ⚠️ {error}
-                                    {/* @ts-ignore - debug is our custom property */}
-                                    {typeof error === 'object' && (error as any).debug && (
-                                        <div style={{ fontSize: '0.7rem', marginTop: '0.5rem', opacity: 0.7 }}>
-                                            {(error as any).debug}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {success && (
-                                <div style={{
-                                    padding: '0.75rem',
-                                    backgroundColor: '#ECFDF5',
-                                    color: '#059669',
-                                    borderRadius: '6px',
-                                    marginTop: '1rem',
-                                    fontSize: '0.875rem',
-                                    border: '1px solid #6EE7B7'
-                                }}>
-                                    ✅ {success}
                                 </div>
                             )}
 

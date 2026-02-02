@@ -21,45 +21,17 @@ const LoginSchema = z.object({
 });
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-    console.log("🚀 INICIANDO LOGIN EN PRODUCCIÓN:", values.email);
-
-    // DIAGNÓSTICO RAPIDO: Si esto sale, la infraestructura de Server Actions está bien.
-    if (values.email === "debug@test.com") {
-        return { success: "Respuesta de diagnóstico exitosa. La infraestructura funciona." };
-    }
-
-    // DIAGNÓSTICO DB: Verificamos si Prisma llega a la base de datos
-    if (values.email === "debug-db@test.com") {
-        try {
-            const count = await db.user.count();
-            return { success: `Base de datos CONECTADA. Total usuarios: ${count}` };
-        } catch (dbError) {
-            console.error("❌ ERROR DE DB EN DIAGNÓSTICO:", dbError);
-            return { error: `Fallo de conexión a DB: ${dbError instanceof Error ? dbError.message : "Error desconocido"}` };
-        }
-    }
-
-    // DIAGNÓSTICO BYPASS: Verifica DB y Password pero NO llama a signIn
-    if (values.email === "debug-bypass@test.com") {
-        try {
-            const user = await db.user.findFirst(); // Solo para ver si hay alguien
-            if (!user) return { error: "No hay usuarios en la DB para probar." };
-            return { success: `DB OK. Usuario encontrado: ${user.email}. Bcrypt cargado.` };
-        } catch (e) {
-            return { error: `Error en bypass: ${e instanceof Error ? e.message : "Desconocido"}` };
-        }
-    }
-
     const validatedFields = LoginSchema.safeParse(values);
-    if (!validatedFields.success) return { error: "Campos inválidos" };
+
+    if (!validatedFields.success) {
+        return { error: "Campos inválidos" };
+    }
 
     const { email: rawEmail, password } = validatedFields.data;
     const email = rawEmail.toLowerCase();
 
     try {
-        console.log("🔍 Buscando usuario en DB...");
         const existingUser = await db.user.findUnique({ where: { email } });
-        console.log("✅ Usuario encontrado:", !!existingUser);
 
         if (!existingUser || !existingUser.email || !existingUser.password) {
             return { error: "Email no existe!" };
@@ -69,34 +41,25 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
             return { error: "Tu cuenta está pendiente de aprobación." };
         }
 
-        console.log("🔑 Intentando signIn...");
         await signIn("credentials", {
             email,
             password,
-            redirect: false,
+            redirectTo: "/dashboard",
         });
 
-        console.log("✨ Login exitoso!");
-        return { success: "Inicio de sesión correcto" };
     } catch (error) {
-        console.error("❌ ERROR CRÍTICO EN LOGIN:", error);
-
-        // Si es un error de redirección de NextJS, dejarlo pasar (no debería ocurrir con redirect: false)
-        if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
-            throw error;
-        }
-
         if (error instanceof AuthError) {
             switch (error.type) {
-                case "CredentialsSignin": return { error: "Credenciales inválidas" };
-                default: return { error: `Error de Auth: ${error.type}` };
+                case "CredentialsSignin":
+                    return { error: "Credenciales inválidas" };
+                default:
+                    return { error: "Algo salió mal al iniciar sesión" };
             }
         }
 
-        return {
-            error: `Error interno: ${error instanceof Error ? error.message : "Desconocido"}`,
-            debug: error instanceof Error ? error.stack?.slice(0, 150) : "No stack"
-        };
+        // ¡CRÍTICO! Next.js necesita que los errores de redirección se propaguen
+        // para que la redirección realmente ocurra.
+        throw error;
     }
 };
 
