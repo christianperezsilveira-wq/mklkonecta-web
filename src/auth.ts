@@ -18,8 +18,8 @@ export const {
     signIn,
     signOut,
 } = NextAuth({
-    adapter: PrismaAdapter(db),
-
+    trustHost: true,
+    secret: process.env.AUTH_SECRET,
     ...authConfig,
     providers: [
         Credentials({
@@ -52,7 +52,6 @@ export const {
                 session.user.id = token.sub;
                 session.user.role = token.role as string;
 
-                /*
                 try {
                     const freshUser = await db.user.findUnique({
                         where: { id: token.sub },
@@ -67,7 +66,6 @@ export const {
                 } catch (error) {
                     console.error("Error fetching fresh user data:", error);
                 }
-                */
             }
             return session;
         },

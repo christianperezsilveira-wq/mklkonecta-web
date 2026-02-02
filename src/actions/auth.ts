@@ -58,8 +58,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
         return { success: "Inicio de sesión correcto" };
     } catch (error) {
-        console.error("LOGIN ERROR:", error);
-
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":
@@ -69,10 +67,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
             }
         }
 
-        // NextJS Redirects are thrown as errors, we need to let them pass or handle if redirect: false
-        // But since we used redirect: false, signIn shouldn't throw Redirect.
-
-        return { error: `Error del sistema: ${error instanceof Error ? error.message : "Desconocido"}` };
+        const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+        console.error("DEBUG - SERVER ACTION ERROR:", error);
+        return { error: `Error de conexión: ${errorMessage}` };
     }
 };
 
