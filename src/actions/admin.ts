@@ -53,9 +53,14 @@ export const deleteCampaign = async (id: string) => {
 };
 
 export const getCampaigns = async () => {
-    return await db.campaign.findMany({
-        orderBy: { createdAt: "desc" }
-    });
+    try {
+        return await db.campaign.findMany({
+            orderBy: { createdAt: "desc" }
+        });
+    } catch (error) {
+        console.error("Error fetching campaigns:", error);
+        return [];
+    }
 };
 
 /**
@@ -107,9 +112,14 @@ export const deleteQuickLink = async (id: string) => {
 };
 
 export const getQuickLinks = async () => {
-    return await db.quickLink.findMany({
-        orderBy: { order: "asc" }
-    });
+    try {
+        return await db.quickLink.findMany({
+            orderBy: { order: "asc" }
+        });
+    } catch (error) {
+        console.error("Error fetching quick links:", error);
+        return [];
+    }
 };
 
 /**
