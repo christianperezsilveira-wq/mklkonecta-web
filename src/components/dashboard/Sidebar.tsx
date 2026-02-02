@@ -43,8 +43,8 @@ export const Sidebar = ({ userRole }: { userRole?: string }) => {
                 <div className={styles.categoryTitle}>Herramientas</div>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>🛠️</span> Herramientas</Link>
 
-                <div className={styles.categoryTitle}>Comunidad</div>
-                <Link href="#" className={styles.navItem}><span className={styles.navIcon}>👥</span> Comunidad</Link>
+                <div className={styles.categoryTitle}>Campañas</div>
+                <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📢</span> Campañas</Link>
 
                 <div className={styles.categoryTitle}>Recursos Humanos</div>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📋</span> Recursos Humanos</Link>
