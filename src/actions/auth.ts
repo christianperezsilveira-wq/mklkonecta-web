@@ -21,7 +21,6 @@ const LoginSchema = z.object({
 });
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-    console.log("🚀 LOGIN: Servidor recibió petición", values.email);
     const validatedFields = LoginSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -32,16 +31,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const email = rawEmail.toLowerCase();
 
     try {
-        console.log("🔍 LOGIN: Buscando usuario...");
         const existingUser = await db.user.findUnique({ where: { email } });
 
         if (!existingUser || !existingUser.email || !existingUser.password) {
-            console.log("❌ LOGIN: Usuario no existe");
             return { error: "Email no existe!" };
         }
 
         if (!existingUser.isApproved) {
-            console.log("❌ LOGIN: Usuario no aprobado");
             return { error: "Tu cuenta está pendiente de aprobación." };
         }
 
