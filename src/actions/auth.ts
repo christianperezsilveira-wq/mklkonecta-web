@@ -39,6 +39,17 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         }
     }
 
+    // DIAGNÓSTICO BYPASS: Verifica DB y Password pero NO llama a signIn
+    if (values.email === "debug-bypass@test.com") {
+        try {
+            const user = await db.user.findFirst(); // Solo para ver si hay alguien
+            if (!user) return { error: "No hay usuarios en la DB para probar." };
+            return { success: `DB OK. Usuario encontrado: ${user.email}. Bcrypt cargado.` };
+        } catch (e) {
+            return { error: `Error en bypass: ${e instanceof Error ? e.message : "Desconocido"}` };
+        }
+    }
+
     const validatedFields = LoginSchema.safeParse(values);
     if (!validatedFields.success) return { error: "Campos inválidos" };
 
