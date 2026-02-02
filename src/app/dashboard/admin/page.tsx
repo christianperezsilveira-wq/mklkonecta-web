@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getCampaigns, getQuickLinks } from "@/actions/admin";
-// We'll create specialized components for management
-// import { CampaignManager } from "@/components/admin/CampaignManager";
-// import { LinkManager } from "@/components/admin/LinkManager";
+import { CampaignManager } from "@/components/admin/CampaignManager";
+import { LinkManager } from "@/components/admin/LinkManager";
 import styles from "./admin.module.css";
 
 export default async function AdminPage() {
@@ -26,20 +25,12 @@ export default async function AdminPage() {
             <div className={styles.grid}>
                 <section className={styles.section}>
                     <h2 className={styles.sectionTitle}>Gestión de Campañas</h2>
-                    <div className={styles.placeholder}>
-                        Próximamente: Componente CampaignManager
-                        <br />
-                        Actualmente hay {campaigns.length} campañas logradas.
-                    </div>
+                    <CampaignManager initialCampaigns={campaigns} />
                 </section>
 
                 <section className={styles.section}>
                     <h2 className={styles.sectionTitle}>Links de Interés</h2>
-                    <div className={styles.placeholder}>
-                        Próximamente: Componente LinkManager
-                        <br />
-                        Actualmente hay {quickLinks.length} links configurados.
-                    </div>
+                    <LinkManager initialLinks={quickLinks} />
                 </section>
             </div>
         </div>

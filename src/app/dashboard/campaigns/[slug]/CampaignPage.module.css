@@ -1,0 +1,109 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1000px;
+}
+
+.header {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumb {
+    font-size: 0.85rem;
+    color: #9CA3AF;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.breadcrumb a {
+    color: #6B7280;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: #E60000;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.025em;
+}
+
+.description {
+    font-size: 1.1rem;
+    color: #6B7280;
+    line-height: 1.6;
+}
+
+.contentWrapper {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid #F3F4F6;
+    min-height: 400px;
+}
+
+.dynamicContent {
+    line-height: 1.7;
+    color: #374151;
+    font-size: 1.05rem;
+}
+
+.dynamicContent h1,
+.dynamicContent h2,
+.dynamicContent h3 {
+    color: #111;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.dynamicContent p {
+    margin-bottom: 1.25rem;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    color: #9CA3AF;
+    padding: 3rem 0;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+    opacity: 0.3;
+}
+
+.footer {
+    padding: 1rem 0;
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.backButton:hover {
+    background: #333;
+    transform: translateX(-4px);
+}

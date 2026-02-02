@@ -1,11 +1,12 @@
 import { auth } from '@/auth';
+import { getQuickLinks } from '@/actions/admin';
 import styles from './dashboard.module.css';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const tools = [
+const tools: { name: string; desc: string; icon: string }[] = [
     { name: 'CRM Interno', desc: 'Gestión de Clientes', icon: '⚡' },
     { name: 'Telefonía Cloud', desc: 'Sistemas Avaya', icon: '📞' },
     { name: 'Gestión Turnos', desc: 'Horarios & WFM', icon: '📅' },
@@ -15,16 +16,10 @@ const tools = [
     { name: 'OneDrive', desc: 'Almacenamiento', icon: '☁️' },
 ];
 
-const importantLinks = [
-    { name: 'Portal de Nómina', icon: '📄' },
-    { name: 'Seguro Médico Prepago', icon: '🏥' },
-    { name: 'Evaluación de Desempeño', icon: '📈' },
-    { name: 'Canal Ético MKL', icon: '📢' },
-];
-
 export default async function DashboardPage() {
     const session = await auth();
     const userName = session?.user?.name?.split(' ')[0] || "Usuario";
+    const quickLinks = await getQuickLinks();
 
     return (
         <div>
@@ -110,15 +105,26 @@ export default async function DashboardPage() {
                     <div className={styles.sidePanel}>
                         <h3 className={styles.sideTitle}>🔗 Links de Interés</h3>
                         <div className={styles.linkList}>
-                            {importantLinks.map(link => (
-                                <Link href="#" key={link.name} className={styles.linkItem}>
+                            {quickLinks.map((link: any) => (
+                                <Link
+                                    href={link.url}
+                                    key={link.id}
+                                    className={styles.linkItem}
+                                    target={link.url.startsWith('http') ? "_blank" : "_self"}
+                                    rel={link.url.startsWith('http') ? "noopener noreferrer" : ""}
+                                >
                                     <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                                        <span style={{ fontSize: '1.2rem', color: '#6B7280' }}>{link.icon}</span>
-                                        {link.name}
+                                        <span style={{ fontSize: '1.2rem', color: '#6B7280' }}>{link.icon || '🔗'}</span>
+                                        {link.title}
                                     </div>
                                     <span style={{ color: '#9CA3AF' }}>›</span>
                                 </Link>
                             ))}
+                            {quickLinks.length === 0 && (
+                                <p style={{ color: '#9CA3AF', fontSize: '0.875rem', textAlign: 'center', padding: '1rem' }}>
+                                    No hay links configurados.
+                                </p>
+                            )}
                         </div>
                     </div>
 

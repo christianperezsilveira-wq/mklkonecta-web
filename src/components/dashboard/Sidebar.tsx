@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
 import { logout } from '@/actions/auth';
 
-export const Sidebar = ({ userRole }: { userRole?: string }) => {
+export const Sidebar = ({ userRole, campaigns = [] }: { userRole?: string; campaigns?: any[] }) => {
     const pathname = usePathname();
 
     return (
@@ -31,20 +31,42 @@ export const Sidebar = ({ userRole }: { userRole?: string }) => {
                 </Link>
 
                 {userRole === 'ADMIN' && (
-                    <Link
-                        href="/dashboard/users"
-                        className={`${styles.navItem} ${pathname === '/dashboard/users' ? styles.active : ''}`}
-                    >
-                        <span className={styles.navIcon}>👥</span>
-                        Usuarios
-                    </Link>
+                    <div className={styles.adminGroup}>
+                        <div className={styles.categoryTitle}>Administración</div>
+                        <Link
+                            href="/dashboard/admin"
+                            className={`${styles.navItem} ${pathname === '/dashboard/admin' ? styles.active : ''}`}
+                        >
+                            <span className={styles.navIcon}>⚙️</span>
+                            Gestionar Panel
+                        </Link>
+                        <Link
+                            href="/dashboard/users"
+                            className={`${styles.navItem} ${pathname === '/dashboard/users' ? styles.active : ''}`}
+                        >
+                            <span className={styles.navIcon}>👥</span>
+                            Usuarios
+                        </Link>
+                    </div>
                 )}
 
                 <div className={styles.categoryTitle}>Herramientas</div>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>🛠️</span> Herramientas</Link>
 
                 <div className={styles.categoryTitle}>Campañas</div>
-                <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📢</span> Campañas</Link>
+                {campaigns?.filter(c => c.status === 'ACTIVE').map(campaign => (
+                    <Link
+                        key={campaign.id}
+                        href={`/dashboard/campaigns/${campaign.slug}`}
+                        className={`${styles.navItem} ${pathname === `/dashboard/campaigns/${campaign.slug}` ? styles.active : ''}`}
+                    >
+                        <span className={styles.navIcon}>📢</span>
+                        {campaign.name}
+                    </Link>
+                ))}
+                {campaigns?.length === 0 && (
+                    <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📢</span> Campañas</Link>
+                )}
 
                 <div className={styles.categoryTitle}>Recursos Humanos</div>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📋</span> Recursos Humanos</Link>

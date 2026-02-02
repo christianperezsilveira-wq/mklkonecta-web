@@ -111,3 +111,17 @@ export const getQuickLinks = async () => {
         orderBy: { order: "asc" }
     });
 };
+
+/**
+ * Fetch a single campaign by slug
+ */
+export const getCampaignBySlug = async (slug: string) => {
+    try {
+        return await db.campaign.findUnique({
+            where: { slug }
+        });
+    } catch (error) {
+        console.error("Error fetching campaign by slug:", error);
+        return null;
+    }
+};
