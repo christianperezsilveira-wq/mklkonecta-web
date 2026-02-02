@@ -123,6 +123,71 @@ export const getQuickLinks = async () => {
 };
 
 /**
+ * SOFTWARE TOOLS ACTIONS
+ */
+
+export const createSoftwareTool = async (values: { name: string; url: string; description?: string; icon?: string; image?: string; order?: number }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const tool = await db.softwareTool.create({
+            data: values
+        });
+        revalidatePath("/dashboard");
+        revalidatePath("/dashboard/tools");
+        return { success: true, data: tool };
+    } catch (error) {
+        console.error("Error creating tool:", error);
+        return { error: "Error al crear la herramienta" };
+    }
+};
+
+export const updateSoftwareTool = async (id: string, values: { name?: string; url?: string; description?: string; icon?: string; image?: string; order?: number }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const tool = await db.softwareTool.update({
+            where: { id },
+            data: values
+        });
+        revalidatePath("/dashboard");
+        revalidatePath("/dashboard/tools");
+        return { success: true, data: tool };
+    } catch (error) {
+        console.error("Error updating tool:", error);
+        return { error: "Error al actualizar la herramienta" };
+    }
+};
+
+export const deleteSoftwareTool = async (id: string) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        await db.softwareTool.delete({ where: { id } });
+        revalidatePath("/dashboard");
+        revalidatePath("/dashboard/tools");
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting tool:", error);
+        return { error: "Error al eliminar la herramienta" };
+    }
+};
+
+export const getSoftwareTools = async () => {
+    try {
+        return await db.softwareTool.findMany({
+            orderBy: { order: "asc" }
+        });
+    } catch (error) {
+        console.error("Error fetching software tools:", error);
+        return [];
+    }
+};
+
+/**
  * Fetch a single campaign by slug
  */
 export const getCampaignBySlug = async (slug: string) => {

@@ -1,0 +1,166 @@
+.container {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid #F3F4F6;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    color: #6B7280;
+    font-size: 0.95rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: #F9FAFB;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inputGroup label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.inputGroup input {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #D1D5DB;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.inputGroup input:focus {
+    border-color: #E60000;
+    box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1);
+}
+
+.gridInputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 80px;
+    gap: 1rem;
+}
+
+.submitBtn {
+    background: #111;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.submitBtn:hover {
+    background: #333;
+}
+
+.submitBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cancelBtn {
+    background: #E5E7EB;
+    color: #374151;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.toolItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border: 1px solid #F3F4F6;
+    border-radius: 12px;
+}
+
+.toolInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.toolIcon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F9FAFB;
+    border-radius: 10px;
+}
+
+.toolTitle {
+    font-weight: 600;
+    color: #111;
+}
+
+.toolUrl {
+    font-size: 0.8rem;
+    color: #9CA3AF;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editBtn,
+.deleteBtn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #E5E7EB;
+}
+
+.editBtn {
+    background: white;
+    color: #374151;
+}
+
+.deleteBtn {
+    background: #FEF2F2;
+    color: #DC2626;
+    border-color: #FEE2E2;
+}

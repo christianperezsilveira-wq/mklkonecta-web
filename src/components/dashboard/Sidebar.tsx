@@ -51,7 +51,13 @@ export const Sidebar = ({ userRole, campaigns = [] }: { userRole?: string; campa
                 )}
 
                 <div className={styles.categoryTitle}>Herramientas</div>
-                <Link href="#" className={styles.navItem}><span className={styles.navIcon}>🛠️</span> Herramientas</Link>
+                <Link
+                    href="/dashboard/tools"
+                    className={`${styles.navItem} ${pathname === '/dashboard/tools' ? styles.active : ''}`}
+                >
+                    <span className={styles.navIcon}>🛠️</span>
+                    Herramientas
+                </Link>
 
                 <div className={styles.categoryTitle}>Campañas</div>
                 {campaigns?.filter(c => c.status === 'ACTIVE').map(campaign => (

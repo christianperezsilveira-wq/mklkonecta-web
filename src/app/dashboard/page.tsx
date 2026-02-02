@@ -1,25 +1,17 @@
 import { auth } from '@/auth';
-import { getQuickLinks } from '@/actions/admin';
+import { getQuickLinks, getSoftwareTools } from '@/actions/admin';
 import styles from './dashboard.module.css';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const tools: { name: string; desc: string; icon: string }[] = [
-    { name: 'CRM Interno', desc: 'Gestión de Clientes', icon: '⚡' },
-    { name: 'Telefonía Cloud', desc: 'Sistemas Avaya', icon: '📞' },
-    { name: 'Gestión Turnos', desc: 'Horarios & WFM', icon: '📅' },
-    { name: 'Konecta Academy', desc: 'E-learning Portal', icon: '🎓' },
-    { name: 'Outlook Web', desc: 'Correo Corp.', icon: '✉️' },
-    { name: 'CyberSafe', desc: 'Seguridad IT', icon: '🛡️' },
-    { name: 'OneDrive', desc: 'Almacenamiento', icon: '☁️' },
-];
-
 export default async function DashboardPage() {
     const session = await auth();
     const userName = session?.user?.name?.split(' ')[0] || "Usuario";
+    const userRole = session?.user?.role;
     const quickLinks = await getQuickLinks();
+    const softwareTools = await getSoftwareTools();
 
     return (
         <div>
@@ -53,20 +45,40 @@ export default async function DashboardPage() {
                         </div>
 
                         <div className={styles.toolsGrid}>
-                            {tools.map((tool) => (
-                                <div key={tool.name} className={styles.toolCard}>
-                                    <div className={styles.toolIcon}>{tool.icon}</div>
+                            {softwareTools.slice(0, 7).map((tool: any) => (
+                                <a
+                                    key={tool.id}
+                                    href={tool.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.toolCard}
+                                >
+                                    <div className={styles.toolIcon}>
+                                        {tool.image ? (
+                                            <img src={tool.image} alt={tool.name} style={{ width: '100%', height: '100%', borderRadius: '8px' }} />
+                                        ) : (
+                                            tool.icon || '🛠️'
+                                        )}
+                                    </div>
                                     <div className={styles.toolContent}>
                                         <div className={styles.toolName}>{tool.name}</div>
-                                        <div className={styles.toolDesc}>{tool.desc}</div>
+                                        <div className={styles.toolDesc}>{tool.description}</div>
                                     </div>
-                                </div>
+                                </a>
                             ))}
 
-                            {/* Add Tool Button */}
-                            <button className={`${styles.toolCard} ${styles.addToolCard}`}>
-                                <span>+</span> AÑADIR TOOL
-                            </button>
+                            {/* Add Tool Button - Only for Admins */}
+                            {userRole === 'ADMIN' && (
+                                <Link href="/dashboard/admin" className={`${styles.toolCard} ${styles.addToolCard}`}>
+                                    <span>+</span> AÑADIR TOOL
+                                </Link>
+                            )}
+
+                            {softwareTools.length === 0 && userRole !== 'ADMIN' && (
+                                <p style={{ color: '#9CA3AF', fontSize: '0.9rem', gridColumn: '1/-1', textAlign: 'center', padding: '2rem' }}>
+                                    No hay herramientas configuradas.
+                                </p>
+                            )}
                         </div>
                     </section>
 
