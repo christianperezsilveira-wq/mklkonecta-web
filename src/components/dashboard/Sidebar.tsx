@@ -4,48 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
-
 import { logout } from '@/actions/auth';
-
-const menuGroups = [
-    {
-        title: null, // Top level items
-        items: [
-            { label: 'Dashboard', href: '/dashboard', icon: 'HH' }, // HH will be replaced by custom icon logic or SVG
-        ]
-    },
-    {
-        title: 'Herramientas',
-        items: [
-            { label: 'Herramientas', href: '/dashboard/tools', icon: '🛠️' },
-        ]
-    },
-    {
-        title: 'Comunidad',
-        items: [
-            { label: 'Comunidad', href: '/dashboard/community', icon: '👥' },
-        ]
-    },
-    {
-        title: 'Recursos Humanos',
-        items: [
-            { label: 'Recursos Humanos', href: '/dashboard/hr', icon: '📄' },
-        ]
-    },
-    {
-        title: 'Soporte IT',
-        items: [
-            { label: 'Soporte IT', href: '/dashboard/support', icon: '🎧' },
-        ]
-    },
-    {
-        title: 'PERSONAL',
-        items: [
-            { label: 'Mis Nóminas', href: '/dashboard/payroll', icon: '💰' },
-            { label: 'Mi Horario', href: '/dashboard/schedule', icon: '📅' },
-        ]
-    }
-];
 
 export const Sidebar = ({ userRole }: { userRole?: string }) => {
     const pathname = usePathname();

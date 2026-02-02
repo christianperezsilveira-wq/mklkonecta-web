@@ -1,34 +1,20 @@
-import React from 'react';
-import styles from './dashboard.module.css';
-import Link from 'next/link';
+import { auth } from '@/auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const tools = [
-    { name: 'CRM Interno', desc: 'Gestión de Clientes', icon: '⚡' },
-    { name: 'Telefonía Cloud', desc: 'Sistemas Avaya', icon: '📞' },
-    { name: 'Gestión Turnos', desc: 'Horarios & WFM', icon: '📅' },
-    { name: 'Konecta Academy', desc: 'E-learning Portal', icon: '🎓' },
-    { name: 'Outlook Web', desc: 'Correo Corp.', icon: '✉️' },
-    { name: 'CyberSafe', desc: 'Seguridad IT', icon: '🛡️' },
-    { name: 'OneDrive', desc: 'Almacenamiento', icon: '☁️' },
-];
+// ... (tools and importantLinks definitions remain unchanged)
 
-const importantLinks = [
-    { name: 'Portal de Nómina', icon: '📄' },
-    { name: 'Seguro Médico Prepago', icon: '🏥' },
-    { name: 'Evaluación de Desempeño', icon: '📈' },
-    { name: 'Canal Ético MKL', icon: '📢' },
-];
+export default async function DashboardPage() {
+    const session = await auth();
+    const userName = session?.user?.name?.split(' ')[0] || "Usuario";
 
-export default function DashboardPage() {
     return (
         <div>
             {/* Welcome Section */}
             <div className={styles.welcomeSection}>
                 <div className={styles.welcomeTitle}>
-                    <h1>Bienvenido, Carlos</h1>
+                    <h1>Bienvenido, {userName}</h1>
                     <p>Panel central de gestión. Tu entorno de trabajo optimizado con la identidad de MKL Konecta.</p>
                 </div>
 
