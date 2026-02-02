@@ -1,3 +1,24 @@
+.layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #F9FAFB;
+}
+
+.mainContent {
+    flex: 1;
+    margin-left: 260px;
+    /* Ancho de la Sidebar */
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    /* Evita que el contenido flex rompa el layout */
+}
+
+.pageContent {
+    padding: 2rem;
+    flex: 1;
+}
+
 .welcomeSection {
     display: flex;
     justify-content: space-between;
