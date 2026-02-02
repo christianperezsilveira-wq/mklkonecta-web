@@ -21,55 +21,52 @@ const LoginSchema = z.object({
 });
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-    console.log("SERVER ACTION: Login called with", values.email);
-    const validatedFields = LoginSchema.safeParse(values);
+    console.log("🚀 INICIANDO LOGIN EN PRODUCCIÓN:", values.email);
 
-    if (!validatedFields.success) {
-        return { error: "Campos inválidos" };
+    // DIAGNÓSTICO RAPIDO: Si esto sale, la infraestructura de Server Actions está bien.
+    if (values.email === "debug@test.com") {
+        return { success: "Respuesta de diagnóstico exitosa. La infraestructura funciona." };
     }
+
+    const validatedFields = LoginSchema.safeParse(values);
+    if (!validatedFields.success) return { error: "Campos inválidos" };
 
     const { email: rawEmail, password } = validatedFields.data;
     const email = rawEmail.toLowerCase();
 
     try {
+        console.log("🔍 Buscando usuario en DB...");
         const existingUser = await db.user.findUnique({ where: { email } });
+        console.log("✅ Usuario encontrado:", !!existingUser);
 
         if (!existingUser || !existingUser.email || !existingUser.password) {
             return { error: "Email no existe!" };
         }
 
-        if (!existingUser.emailVerified) {
-            const verificationToken = await generateVerificationToken(existingUser.email);
-            // await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
-            // return { success: "¡Cuenta no verificada! Te enviamos un nuevo correo." };
-            // For now, allow login if verified logic is not strictly enforced or just return error
-            return { error: "Cuenta no verificada. Revisa tu correo." };
-        }
-
         if (!existingUser.isApproved) {
-            return { error: "Tu cuenta está pendiente de aprobación por un administrador." };
+            return { error: "Tu cuenta está pendiente de aprobación." };
         }
 
+        console.log("🔑 Intentando signIn...");
         await signIn("credentials", {
             email,
             password,
             redirect: false,
         });
 
+        console.log("✨ Login exitoso!");
         return { success: "Inicio de sesión correcto" };
     } catch (error) {
+        console.error("❌ ERROR CRÍTICO EN LOGIN:", error);
+
         if (error instanceof AuthError) {
             switch (error.type) {
-                case "CredentialsSignin":
-                    return { error: "Credenciales inválidas" };
-                default:
-                    return { error: "Algo salió mal al iniciar sesión" };
+                case "CredentialsSignin": return { error: "Credenciales inválidas" };
+                default: return { error: "Error de autenticación" };
             }
         }
 
-        const errorMessage = error instanceof Error ? error.message : "Error desconocido";
-        console.error("DEBUG - SERVER ACTION ERROR:", error);
-        return { error: `Error de conexión: ${errorMessage}` };
+        return { error: `Error interno: ${error instanceof Error ? error.message : "Desconocido"}` };
     }
 };
 
