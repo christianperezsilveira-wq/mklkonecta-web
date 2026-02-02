@@ -32,13 +32,14 @@ export const LoginForm = () => {
 
                 if (data?.error) {
                     setError(data.error);
+                } else if (data?.success) {
+                    // REDIRECCIÓN MANUAL: Esto evita problemas con Vercel y Server Actions
+                    router.push("/dashboard");
+                    router.refresh();
                 }
             } catch (err) {
-                // Si es un error de redirección de NextJS (lo que lanza signIn),
-                // el catch lo atrapará en el cliente si no se manejó bien en el servidor.
-                // Pero como es un Server Action, el router.push() manual es más "seguro"
-                // si el server action falló en la redirección.
-                setError("Error de autenticación o conexión");
+                console.error("Login component error:", err);
+                setError("Ocurrió un error inesperado al conectar.");
             }
         });
     };

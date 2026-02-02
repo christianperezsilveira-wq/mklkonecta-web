@@ -21,6 +21,7 @@ const LoginSchema = z.object({
 });
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
+    console.log("🚀 LOGIN: Servidor recibió petición", values.email);
     const validatedFields = LoginSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -31,23 +32,36 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const email = rawEmail.toLowerCase();
 
     try {
+        console.log("🔍 LOGIN: Buscando usuario...");
         const existingUser = await db.user.findUnique({ where: { email } });
 
         if (!existingUser || !existingUser.email || !existingUser.password) {
+            console.log("❌ LOGIN: Usuario no existe");
             return { error: "Email no existe!" };
         }
 
         if (!existingUser.isApproved) {
+            console.log("❌ LOGIN: Usuario no aprobado");
             return { error: "Tu cuenta está pendiente de aprobación." };
         }
 
-        await signIn("credentials", {
+        console.log("🔑 LOGIN: Intentando signIn...");
+        const result = await signIn("credentials", {
             email,
             password,
-            redirectTo: "/dashboard",
+            redirect: false, // ¡IMPORTANTE! Manejaremos la redirección en el cliente
         });
 
+        if (result?.error) {
+            console.log("❌ LOGIN: Error de credentials", result.error);
+            return { error: "Credenciales inválidas" };
+        }
+
+        console.log("✅ LOGIN: Éxito total. Retornando al cliente.");
+        return { success: true };
     } catch (error) {
+        console.error("❌ LOGIN ERROR CRÍTICO:", error);
+
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":
@@ -57,9 +71,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
             }
         }
 
-        // ¡CRÍTICO! Next.js necesita que los errores de redirección se propaguen
-        // para que la redirección realmente ocurra.
-        throw error;
+        return { error: `Error interno: ${error instanceof Error ? error.message : "Desconocido"}` };
     }
 };
 
