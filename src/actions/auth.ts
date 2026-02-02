@@ -28,6 +28,17 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         return { success: "Respuesta de diagnóstico exitosa. La infraestructura funciona." };
     }
 
+    // DIAGNÓSTICO DB: Verificamos si Prisma llega a la base de datos
+    if (values.email === "debug-db@test.com") {
+        try {
+            const count = await db.user.count();
+            return { success: `Base de datos CONECTADA. Total usuarios: ${count}` };
+        } catch (dbError) {
+            console.error("❌ ERROR DE DB EN DIAGNÓSTICO:", dbError);
+            return { error: `Fallo de conexión a DB: ${dbError instanceof Error ? dbError.message : "Error desconocido"}` };
+        }
+    }
+
     const validatedFields = LoginSchema.safeParse(values);
     if (!validatedFields.success) return { error: "Campos inválidos" };
 
