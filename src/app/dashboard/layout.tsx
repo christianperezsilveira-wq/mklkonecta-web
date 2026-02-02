@@ -1,8 +1,11 @@
-import { auth } from '@/auth';
-import { Sidebar } from '@/components/dashboard/Sidebar';
-import { Header } from '@/components/dashboard/Header';
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { Sidebar } from "@/components/dashboard/Sidebar";
+import { Header } from "@/components/dashboard/Header";
+import styles from "./dashboard.module.css";
+import { LanguageProvider } from "@/context/LanguageContext";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function DashboardLayout({
     children,
@@ -11,15 +14,21 @@ export default async function DashboardLayout({
 }) {
     const session = await auth();
 
+    if (!session) {
+        redirect("/login");
+    }
+
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F7F9' }}>
-            <Sidebar userRole={session?.user?.role} />
-            <div style={{ flex: 1, marginLeft: '260px', display: 'flex', flexDirection: 'column' }}>
-                <Header user={session?.user} />
-                <main style={{ padding: '2rem', flex: 1 }}>
-                    {children}
-                </main>
+        <LanguageProvider>
+            <div className={styles.layout}>
+                <Sidebar />
+                <div className={styles.mainContent}>
+                    <Header user={session.user} />
+                    <main className={styles.pageContent}>
+                        {children}
+                    </main>
+                </div>
             </div>
-        </div>
+        </LanguageProvider>
     );
 }

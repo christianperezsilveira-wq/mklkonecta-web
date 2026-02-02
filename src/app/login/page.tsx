@@ -1,43 +1,25 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useActionState, useEffect } from 'react';
 import styles from './login.module.css';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { login } from '@/actions/auth';
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-
-    const [error, setError] = useState<string | undefined>("");
-    const [success, setSuccess] = useState<string | undefined>("");
-
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
-        setSuccess("");
-        setLoading(true);
-
-        const formData = new FormData(e.target as HTMLFormElement);
-        const email = formData.get("email") as string;
-        const password = formData.get("password") as string;
-
-        try {
-            const data = await login({ email, password });
-
-            if (data?.error) {
-                setError(data.error);
-                setLoading(false);
-            }
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "Algo salió mal (Error desconocido)");
-            setLoading(false);
-        }
-    };
+    // useActionState is the standard for Next.js 15+ form handling
+    const [state, formAction, isPending] = useActionState(
+        async (_prevState: any, formData: FormData) => {
+            const email = formData.get("email") as string;
+            const password = formData.get("password") as string;
+            return await login({ email, password });
+        },
+        null
+    );
 
     return (
         <div className={styles.container}>
@@ -92,10 +74,9 @@ export default function LoginPage() {
                         <h2 className={styles.title}>Iniciar Sesión</h2>
                         <p className={styles.subtitle}>Bienvenido de nuevo. Ingrese sus credenciales.</p>
 
-                        <form className={styles.form} onSubmit={handleLogin}>
+                        <form className={styles.form} action={formAction}>
                             <div className={styles.inputGroup}>
                                 <span className={styles.label}>USUARIO O CORREO</span>
-                                {/* Assuming Input component accepts style/className or we pass props */}
                                 <Input
                                     name="email"
                                     label=""
@@ -127,7 +108,7 @@ export default function LoginPage() {
                                 </Link>
                             </div>
 
-                            {error && (
+                            {state?.error && (
                                 <div style={{
                                     padding: '0.75rem',
                                     backgroundColor: '#FEF2F2',
@@ -137,17 +118,18 @@ export default function LoginPage() {
                                     fontSize: '0.875rem',
                                     border: '1px solid #FCA5A5'
                                 }}>
-                                    ⚠️ {error}
+                                    ⚠️ {state.error}
                                 </div>
                             )}
 
                             <Button
                                 variant="primary"
                                 fullWidth
-                                disabled={loading}
+                                disabled={isPending}
+                                type="submit"
                                 style={{ backgroundColor: '#FF0000', height: '48px', borderRadius: '6px', marginTop: '1rem' }}
                             >
-                                {loading ? 'Cargando...' : 'Acceder al Portal'}
+                                {isPending ? 'Cargando...' : 'Acceder al Portal'}
                             </Button>
                         </form>
 
