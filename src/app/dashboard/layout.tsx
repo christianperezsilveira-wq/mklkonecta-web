@@ -21,7 +21,7 @@ export default async function DashboardLayout({
     return (
         <LanguageProvider>
             <div className={styles.layout}>
-                <Sidebar />
+                <Sidebar userRole={session.user.role} />
                 <div className={styles.mainContent}>
                     <Header user={session.user} />
                     <main className={styles.pageContent}>
