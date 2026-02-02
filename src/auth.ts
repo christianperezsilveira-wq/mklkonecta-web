@@ -25,20 +25,30 @@ export const {
         Credentials({
             async authorize(credentials) {
                 try {
+                    console.log("🛠️ AUTH: Iniciando validación de campos...");
                     const validatedFields = LoginSchema.safeParse(credentials);
 
                     if (validatedFields.success) {
                         const { email, password } = validatedFields.data;
+                        console.log("🛠️ AUTH: Buscando usuario:", email);
 
                         const user = await db.user.findUnique({ where: { email } });
-                        if (!user || !user.password) return null;
+                        if (!user || !user.password) {
+                            console.log("🛠️ AUTH: Usuario no encontrado o sin password.");
+                            return null;
+                        }
 
+                        console.log("🛠️ AUTH: Comparando contraseñas...");
                         const passwordsMatch = await bcrypt.compare(password, user.password);
-                        if (passwordsMatch) return user;
+                        if (passwordsMatch) {
+                            console.log("🛠️ AUTH: Match exitoso! Retornando usuario.");
+                            return user;
+                        }
+                        console.log("🛠️ AUTH: Contraseña incorrecta.");
                     }
                     return null;
                 } catch (error) {
-                    console.error("Auth Error:", error);
+                    console.error("❌ AUTH Error en authorize:", error);
                     return null;
                 }
             },

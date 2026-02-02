@@ -70,14 +70,22 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     } catch (error) {
         console.error("❌ ERROR CRÍTICO EN LOGIN:", error);
 
+        // Si es un error de redirección de NextJS, dejarlo pasar (no debería ocurrir con redirect: false)
+        if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+            throw error;
+        }
+
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin": return { error: "Credenciales inválidas" };
-                default: return { error: "Error de autenticación" };
+                default: return { error: `Error de Auth: ${error.type}` };
             }
         }
 
-        return { error: `Error interno: ${error instanceof Error ? error.message : "Desconocido"}` };
+        return {
+            error: `Error interno: ${error instanceof Error ? error.message : "Desconocido"}`,
+            debug: error instanceof Error ? error.stack?.slice(0, 150) : "No stack"
+        };
     }
 };
 
