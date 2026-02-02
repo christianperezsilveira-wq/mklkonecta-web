@@ -37,7 +37,8 @@ export default function LoginPage() {
             const data = await login({ email, password });
 
             if (data?.error) {
-                setError(data.error);
+                const message = data.debug ? `${data.error} (${data.debug})` : data.error;
+                setError(message);
                 setLoading(false);
             } else if (data?.success) {
                 setSuccess(data.success);
@@ -150,6 +151,12 @@ export default function LoginPage() {
                                     border: '1px solid #FCA5A5'
                                 }}>
                                     ⚠️ {error}
+                                    {/* @ts-ignore - debug is our custom property */}
+                                    {typeof error === 'object' && (error as any).debug && (
+                                        <div style={{ fontSize: '0.7rem', marginTop: '0.5rem', opacity: 0.7 }}>
+                                            {(error as any).debug}
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
