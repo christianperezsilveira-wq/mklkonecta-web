@@ -1,9 +1,26 @@
 import { auth } from '@/auth';
+import styles from './dashboard.module.css';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-// ... (tools and importantLinks definitions remain unchanged)
+const tools = [
+    { name: 'CRM Interno', desc: 'Gestión de Clientes', icon: '⚡' },
+    { name: 'Telefonía Cloud', desc: 'Sistemas Avaya', icon: '📞' },
+    { name: 'Gestión Turnos', desc: 'Horarios & WFM', icon: '📅' },
+    { name: 'Konecta Academy', desc: 'E-learning Portal', icon: '🎓' },
+    { name: 'Outlook Web', desc: 'Correo Corp.', icon: '✉️' },
+    { name: 'CyberSafe', desc: 'Seguridad IT', icon: '🛡️' },
+    { name: 'OneDrive', desc: 'Almacenamiento', icon: '☁️' },
+];
+
+const importantLinks = [
+    { name: 'Portal de Nómina', icon: '📄' },
+    { name: 'Seguro Médico Prepago', icon: '🏥' },
+    { name: 'Evaluación de Desempeño', icon: '📈' },
+    { name: 'Canal Ético MKL', icon: '📢' },
+];
 
 export default async function DashboardPage() {
     const session = await auth();
