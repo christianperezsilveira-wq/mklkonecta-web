@@ -141,21 +141,20 @@
 .toolCard {
     background: #fff;
     border: 1px solid #E5E7EB;
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    transition: all 0.2s;
+    transition: all 0.25s ease;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .toolCard:hover {
     border-color: #E60000;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
 }
 
 .toolIcon {

@@ -7,10 +7,10 @@
 
 .header {
     background: white;
-    padding: 3rem;
-    border-radius: 24px;
-    border: 1px solid #F3F4F6;
-    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .breadcrumb {
@@ -31,10 +31,10 @@
 }
 
 .title {
-    font-size: 2.5rem;
+    font-size: 1.85rem;
     font-weight: 800;
     color: #111;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     letter-spacing: -0.02em;
 }
 
@@ -53,22 +53,21 @@
 
 .toolCard {
     background: white;
-    border-radius: 20px;
-    border: 1px solid #F3F4F6;
-    padding: 1.75rem;
+    border-radius: 16px;
+    border: 1px solid #E5E7EB;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .toolCard:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: #E60000;
-    box-shadow: 0 10px 30px -10px rgba(230, 0, 0, 0.1);
+    box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.08);
 }
 
 .iconWrapper {
