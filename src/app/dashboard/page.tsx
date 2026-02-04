@@ -11,7 +11,8 @@ export default async function DashboardPage() {
     const userName = session?.user?.name?.split(' ')[0] || "Usuario";
     const userRole = session?.user?.role;
     const quickLinks = await getQuickLinks();
-    const softwareTools = await getSoftwareTools();
+    const allTools = await getSoftwareTools();
+    const softwareTools = allTools.filter(tool => tool.locations?.includes('DASHBOARD'));
 
     return (
         <div>

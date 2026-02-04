@@ -41,6 +41,35 @@ export default async function CampaignPage({ params }: CampaignParams) {
                 )}
             </div>
 
+            {campaign.tools && campaign.tools.length > 0 && (
+                <div className={styles.toolsSection}>
+                    <h2 className={styles.sectionTitle}>Herramientas Relacionadas</h2>
+                    <div className={styles.toolsGrid}>
+                        {campaign.tools.map((tool: any) => (
+                            <a
+                                key={tool.id}
+                                href={tool.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.toolCard}
+                            >
+                                <div className={styles.toolIcon}>
+                                    {tool.image ? (
+                                        <img src={tool.image} alt={tool.name} style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} />
+                                    ) : (
+                                        tool.icon || '🛠️'
+                                    )}
+                                </div>
+                                <div className={styles.toolContent}>
+                                    <div className={styles.toolName}>{tool.name}</div>
+                                    <div className={styles.toolDesc}>{tool.description}</div>
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <footer className={styles.footer}>
                 <Link href="/dashboard" className={styles.backButton}>
                     ← Volver al Dashboard

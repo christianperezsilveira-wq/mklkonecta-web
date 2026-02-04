@@ -6,7 +6,8 @@ import styles from './ToolsPage.module.css';
 export const dynamic = 'force-dynamic';
 
 export default async function ToolsPage() {
-    const tools = await getSoftwareTools();
+    const allTools = await getSoftwareTools();
+    const tools = allTools.filter(tool => tool.locations?.includes('TOOLS_PAGE'));
 
     return (
         <div className={styles.container}>
@@ -20,11 +21,11 @@ export default async function ToolsPage() {
 
             <div className={styles.toolsGrid}>
                 {tools.map((tool: any) => (
-                    <a 
-                        key={tool.id} 
-                        href={tool.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                    <a
+                        key={tool.id}
+                        href={tool.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={styles.toolCard}
                     >
                         <div className={styles.iconWrapper}>

@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getSoftwareTools, createSoftwareTool, updateSoftwareTool, deleteSoftwareTool } from '@/actions/admin';
+import { getSoftwareTools, createSoftwareTool, updateSoftwareTool, deleteSoftwareTool, getCampaigns } from '@/actions/admin';
 import styles from './ToolManager.module.css';
 
 export const ToolManager = () => {
     const [tools, setTools] = useState<any[]>([]);
+    const [campaigns, setCampaigns] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingTool, setEditingTool] = useState<any>(null);
     const [formData, setFormData] = useState({
@@ -14,17 +15,34 @@ export const ToolManager = () => {
         description: '',
         icon: '',
         image: '',
-        order: 0
+        order: 0,
+        locations: ['DASHBOARD', 'TOOLS_PAGE'], // Default to both
+        campaignId: ''
     });
 
     useEffect(() => {
-        loadTools();
+        loadData();
     }, []);
 
-    const loadTools = async () => {
-        const data = await getSoftwareTools();
-        setTools(data);
+    const loadData = async () => {
+        const [toolsData, campaignsData] = await Promise.all([
+            getSoftwareTools(),
+            getCampaigns()
+        ]);
+        setTools(toolsData);
+        setCampaigns(campaignsData);
         setLoading(false);
+    };
+
+    const handleLocationChange = (location: string) => {
+        setFormData(prev => {
+            const currentLocations = prev.locations || [];
+            if (currentLocations.includes(location)) {
+                return { ...prev, locations: currentLocations.filter(l => l !== location) };
+            } else {
+                return { ...prev, locations: [...currentLocations, location] };
+            }
+        });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -36,13 +54,23 @@ export const ToolManager = () => {
             : await createSoftwareTool(formData);
 
         if (result.success) {
-            setFormData({ name: '', url: '', description: '', icon: '', image: '', order: 0 });
+            setFormData({
+                name: '',
+                url: '',
+                description: '',
+                icon: '',
+                image: '',
+                order: 0,
+                locations: ['DASHBOARD', 'TOOLS_PAGE'],
+                campaignId: ''
+            });
             setEditingTool(null);
-            await loadTools();
+            const updatedTools = await getSoftwareTools();
+            setTools(updatedTools);
         } else {
             alert(result.error);
-            setLoading(false);
         }
+        setLoading(false);
     };
 
     const handleEdit = (tool: any) => {
@@ -53,7 +81,9 @@ export const ToolManager = () => {
             description: tool.description || '',
             icon: tool.icon || '',
             image: tool.image || '',
-            order: tool.order
+            order: tool.order,
+            locations: tool.locations || [],
+            campaignId: tool.campaignId || ''
         });
     };
 
@@ -62,18 +92,19 @@ export const ToolManager = () => {
         setLoading(true);
         const result = await deleteSoftwareTool(id);
         if (result.success) {
-            await loadTools();
+            const updatedTools = await getSoftwareTools();
+            setTools(updatedTools);
         } else {
             alert(result.error);
-            setLoading(false);
         }
+        setLoading(false);
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <h2>Gestión de Herramientas</h2>
-                <p>Configura las tarjetas que aparecen en el Dashboard y en la sección de Herramientas.</p>
+                <p>Configura las tarjetas que aparecen en el Dashboard, Herramientas y Campañas.</p>
             </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>
@@ -99,16 +130,16 @@ export const ToolManager = () => {
                 </div>
                 <div className={styles.gridInputs}>
                     <div className={styles.inputGroup}>
-                        <label>Icono (Emoji o nombre Lucide)</label>
+                        <label>Icono (Emoji)</label>
                         <input
                             type="text"
                             value={formData.icon}
                             onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                            placeholder="Ej: ⚡, ✉️"
+                            placeholder="Ej: ⚡"
                         />
                     </div>
                     <div className={styles.inputGroup}>
-                        <label>Imagen URL (Opcional)</label>
+                        <label>Imagen URL</label>
                         <input
                             type="text"
                             value={formData.image}
@@ -125,6 +156,44 @@ export const ToolManager = () => {
                         />
                     </div>
                 </div>
+
+                <div className={styles.inputGroup}>
+                    <label>Visibilidad (Dónde aparecerá)</label>
+                    <div className={styles.checkboxGroup}>
+                        <label className={styles.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={formData.locations.includes('DASHBOARD')}
+                                onChange={() => handleLocationChange('DASHBOARD')}
+                            />
+                            Dashboard Principal
+                        </label>
+                        <label className={styles.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={formData.locations.includes('TOOLS_PAGE')}
+                                onChange={() => handleLocationChange('TOOLS_PAGE')}
+                            />
+                            Página de Herramientas
+                        </label>
+                    </div>
+                </div>
+
+                <div className={styles.inputGroup}>
+                    <label>Vincular a Campaña (Opcional)</label>
+                    <select
+                        value={formData.campaignId}
+                        onChange={(e) => setFormData({ ...formData, campaignId: e.target.value })}
+                        className={styles.select}
+                    >
+                        <option value="">-- No vincular a ninguna campaña --</option>
+                        {campaigns.map(c => (
+                            <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                    </select>
+                    <p className={styles.hint}>Si seleccionas una campaña, la herramienta aparecerá también en su página.</p>
+                </div>
+
                 <div className={styles.inputGroup}>
                     <label>Descripción Corta</label>
                     <input
@@ -134,6 +203,7 @@ export const ToolManager = () => {
                         placeholder="Ej: Gestión de Clientes"
                     />
                 </div>
+
                 <div className={styles.buttonGroup}>
                     <button type="submit" className={styles.submitBtn} disabled={loading}>
                         {editingTool ? 'Actualizar Herramienta' : 'Añadir Herramienta'}
@@ -141,7 +211,11 @@ export const ToolManager = () => {
                     {editingTool && (
                         <button type="button" className={styles.cancelBtn} onClick={() => {
                             setEditingTool(null);
-                            setFormData({ name: '', url: '', description: '', icon: '', image: '', order: 0 });
+                            setFormData({
+                                name: '', url: '', description: '', icon: '', image: '', order: 0,
+                                locations: ['DASHBOARD', 'TOOLS_PAGE'],
+                                campaignId: ''
+                            });
                         }}>
                             Cancelar
                         </button>
@@ -153,10 +227,20 @@ export const ToolManager = () => {
                 {tools.map((tool) => (
                     <div key={tool.id} className={styles.toolItem}>
                         <div className={styles.toolInfo}>
-                            <span className={styles.toolIcon}>{tool.icon || '🛠️'}</span>
+                            <div className={styles.toolIconWrapper}>
+                                {tool.image ? (
+                                    <img src={tool.image} alt={tool.name} className={styles.toolListImage} />
+                                ) : (
+                                    <span className={styles.toolIcon}>{tool.icon || '🛠️'}</span>
+                                )}
+                            </div>
                             <div>
                                 <div className={styles.toolTitle}>{tool.name}</div>
-                                <div className={styles.toolUrl}>{tool.url}</div>
+                                <div className={styles.toolMeta}>
+                                    {tool.locations?.includes('DASHBOARD') && <span className={styles.badge}>Dash</span>}
+                                    {tool.locations?.includes('TOOLS_PAGE') && <span className={styles.badge}>Tools</span>}
+                                    {tool.campaign && <span className={styles.badgeCampaign}>{tool.campaign.name}</span>}
+                                </div>
                             </div>
                         </div>
                         <div className={styles.actions}>

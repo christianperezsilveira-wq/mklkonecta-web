@@ -36,6 +36,7 @@ model Campaign {
   description String?
   content     String?  @db.Text
   status      String   @default("ACTIVE") // ACTIVE, INACTIVE
+  tools       SoftwareTool[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -57,6 +58,9 @@ model SoftwareTool {
   url         String
   icon        String?
   image       String?
+  locations   String[] @default([]) // DASHBOARD, TOOLS_PAGE
+  campaignId  String?
+  campaign    Campaign? @relation(fields: [campaignId], references: [id])
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

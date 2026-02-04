@@ -126,7 +126,7 @@ export const getQuickLinks = async () => {
  * SOFTWARE TOOLS ACTIONS
  */
 
-export const createSoftwareTool = async (values: { name: string; url: string; description?: string; icon?: string; image?: string; order?: number }) => {
+export const createSoftwareTool = async (values: { name: string; url: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; campaignId?: string }) => {
     const session = await auth();
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 
@@ -136,6 +136,10 @@ export const createSoftwareTool = async (values: { name: string; url: string; de
         });
         revalidatePath("/dashboard");
         revalidatePath("/dashboard/tools");
+        if (values.campaignId) {
+            const campaign = await db.campaign.findUnique({ where: { id: values.campaignId } });
+            if (campaign) revalidatePath(`/dashboard/campaigns/${campaign.slug}`);
+        }
         return { success: true, data: tool };
     } catch (error) {
         console.error("Error creating tool:", error);
@@ -143,7 +147,7 @@ export const createSoftwareTool = async (values: { name: string; url: string; de
     }
 };
 
-export const updateSoftwareTool = async (id: string, values: { name?: string; url?: string; description?: string; icon?: string; image?: string; order?: number }) => {
+export const updateSoftwareTool = async (id: string, values: { name?: string; url?: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; campaignId?: string }) => {
     const session = await auth();
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 
@@ -154,6 +158,10 @@ export const updateSoftwareTool = async (id: string, values: { name?: string; ur
         });
         revalidatePath("/dashboard");
         revalidatePath("/dashboard/tools");
+        if (values.campaignId) {
+            const campaign = await db.campaign.findUnique({ where: { id: values.campaignId } });
+            if (campaign) revalidatePath(`/dashboard/campaigns/${campaign.slug}`);
+        }
         return { success: true, data: tool };
     } catch (error) {
         console.error("Error updating tool:", error);
@@ -179,7 +187,8 @@ export const deleteSoftwareTool = async (id: string) => {
 export const getSoftwareTools = async () => {
     try {
         return await db.softwareTool.findMany({
-            orderBy: { order: "asc" }
+            orderBy: { order: "asc" },
+            include: { campaign: true }
         });
     } catch (error) {
         console.error("Error fetching software tools:", error);
@@ -193,7 +202,12 @@ export const getSoftwareTools = async () => {
 export const getCampaignBySlug = async (slug: string) => {
     try {
         return await db.campaign.findUnique({
-            where: { slug }
+            where: { slug },
+            include: {
+                tools: {
+                    orderBy: { order: 'asc' }
+                }
+            }
         });
     } catch (error) {
         console.error("Error fetching campaign by slug:", error);
