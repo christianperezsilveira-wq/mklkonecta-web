@@ -5,6 +5,7 @@ import styles from './Header.module.css';
 import Image from 'next/image';
 import { ProfileModal } from '@/components/profile/ProfileModal';
 import { ShiftTimer } from '@/components/attendance/ShiftTimer';
+import { NotificationBell } from '@/components/notifications/NotificationBell';
 
 interface HeaderProps {
     user?: {
@@ -38,9 +39,7 @@ export const Header = ({ user }: HeaderProps) => {
                 <div className={styles.actions}>
                     <ShiftTimer />
 
-                    <button className={styles.iconButton} title="Notificaciones">
-                        🔔
-                    </button>
+                    <NotificationBell />
                     <button className={styles.iconButton} title="Mensajes">
                         ✉️
                     </button>

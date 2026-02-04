@@ -1,0 +1,157 @@
+.container {
+    position: relative;
+    display: inline-block;
+}
+
+.bellButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.bellButton:hover {
+    background-color: #f3f4f6;
+}
+
+.badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: #EF4444;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 2px solid white;
+}
+
+/* Animation Keyframes */
+@keyframes ring {
+    0% {
+        transform: rotate(0);
+    }
+
+    15% {
+        transform: rotate(15deg);
+    }
+
+    30% {
+        transform: rotate(-15deg);
+    }
+
+    45% {
+        transform: rotate(10deg);
+    }
+
+    60% {
+        transform: rotate(-10deg);
+    }
+
+    75% {
+        transform: rotate(5deg);
+    }
+
+    85% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0);
+    }
+}
+
+.ringing {
+    animation: ring 2s ease infinite;
+    transform-origin: 50% 10%;
+}
+
+/* Dropdown */
+.dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+    overflow: hidden;
+    border: 1px solid #E5E7EB;
+}
+
+.header {
+    background: #F9FAFB;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid #E5E7EB;
+    color: #374151;
+}
+
+.list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 1rem;
+    text-decoration: none;
+    color: #4B5563;
+    border-bottom: 1px solid #F3F4F6;
+    transition: background 0.2s;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item:hover {
+    background: #F9FAFB;
+}
+
+.item.URGENT {
+    background: #FEF2F2;
+}
+
+.item.URGENT:hover {
+    background: #FEE2E2;
+}
+
+.icon {
+    font-size: 1.2rem;
+}
+
+.message {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.empty {
+    padding: 2rem;
+    text-align: center;
+    color: #9CA3AF;
+    font-size: 0.9rem;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+}
