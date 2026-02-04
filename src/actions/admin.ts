@@ -131,19 +131,24 @@ export const createSoftwareTool = async (values: { name: string; url: string; de
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 
     try {
+        const dataToCreate = {
+            ...values,
+            campaignId: values.campaignId && values.campaignId.trim() !== "" ? values.campaignId : null
+        };
+
         const tool = await db.softwareTool.create({
-            data: values
+            data: dataToCreate
         });
         revalidatePath("/dashboard");
         revalidatePath("/dashboard/tools");
-        if (values.campaignId) {
-            const campaign = await db.campaign.findUnique({ where: { id: values.campaignId } });
+        if (dataToCreate.campaignId) {
+            const campaign = await db.campaign.findUnique({ where: { id: dataToCreate.campaignId } });
             if (campaign) revalidatePath(`/dashboard/campaigns/${campaign.slug}`);
         }
         return { success: true, data: tool };
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error creating tool:", error);
-        return { error: "Error al crear la herramienta" };
+        return { error: `Error al crear la herramienta: ${error.message}` };
     }
 };
 
@@ -152,20 +157,25 @@ export const updateSoftwareTool = async (id: string, values: { name?: string; ur
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 
     try {
+        const dataToUpdate = {
+            ...values,
+            campaignId: values.campaignId && values.campaignId.trim() !== "" ? values.campaignId : null
+        };
+
         const tool = await db.softwareTool.update({
             where: { id },
-            data: values
+            data: dataToUpdate
         });
         revalidatePath("/dashboard");
         revalidatePath("/dashboard/tools");
-        if (values.campaignId) {
-            const campaign = await db.campaign.findUnique({ where: { id: values.campaignId } });
+        if (dataToUpdate.campaignId) {
+            const campaign = await db.campaign.findUnique({ where: { id: dataToUpdate.campaignId } });
             if (campaign) revalidatePath(`/dashboard/campaigns/${campaign.slug}`);
         }
         return { success: true, data: tool };
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error updating tool:", error);
-        return { error: "Error al actualizar la herramienta" };
+        return { error: `Error al actualizar la herramienta: ${error.message}` };
     }
 };
 
