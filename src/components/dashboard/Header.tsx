@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './Header.module.css';
 import Image from 'next/image';
 import { ProfileModal } from '@/components/profile/ProfileModal';
+import { ShiftTimer } from '@/components/attendance/ShiftTimer';
 
 interface HeaderProps {
     user?: {
@@ -35,6 +36,8 @@ export const Header = ({ user }: HeaderProps) => {
 
                 {/* Actions & Profile */}
                 <div className={styles.actions}>
+                    <ShiftTimer />
+
                     <button className={styles.iconButton} title="Notificaciones">
                         🔔
                     </button>

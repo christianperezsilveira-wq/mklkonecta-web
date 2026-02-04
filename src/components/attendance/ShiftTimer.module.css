@@ -1,0 +1,121 @@
+.container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 9999px;
+    /* Pill shape */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-right: 1rem;
+}
+
+.timerDisplay {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 90px;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #9CA3AF;
+    /* Default gray */
+    box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.2);
+}
+
+.statusDot.ACTIVE {
+    background-color: #10B981;
+    /* Green */
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    animation: pulse 2s infinite;
+}
+
+.statusDot.PAUSED {
+    background-color: #F59E0B;
+    /* Yellow */
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+.timeText {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.btnStart,
+.btnResume {
+    background: #111;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btnStart:hover,
+.btnResume:hover {
+    background: #000;
+    transform: translateY(-1px);
+}
+
+.btnStart:disabled,
+.btnResume:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btnPause,
+.btnStop {
+    background: #F3F4F6;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.btnPause:hover {
+    background: #FEF3C7;
+    color: #D97706;
+    border-color: #FCD34D;
+}
+
+.btnStop:hover {
+    background: #FEE2E2;
+    color: #DC2626;
+    border-color: #FECACA;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

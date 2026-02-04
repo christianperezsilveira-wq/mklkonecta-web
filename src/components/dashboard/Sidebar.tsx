@@ -75,10 +75,17 @@ export const Sidebar = ({ userRole, campaigns = [] }: { userRole?: string; campa
                 )}
 
                 <div className={styles.categoryTitle}>Recursos Humanos</div>
-                <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📋</span> Recursos Humanos</Link>
+                <Link href="/dashboard/hr/reports" className={`${styles.navItem} ${pathname.startsWith('/dashboard/hr') ? styles.active : ''}`}>
+                    <span className={styles.navIcon}>📋</span>
+                    Reportes y Gestión
+                </Link>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>🎧</span> Soporte IT</Link>
 
                 <div className={styles.categoryTitle}>PERSONAL</div>
+                <Link href="/dashboard/attendance" className={`${styles.navItem} ${pathname === '/dashboard/attendance' ? styles.active : ''}`}>
+                    <span className={styles.navIcon}>⏱️</span>
+                    Mi Asistencia
+                </Link>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>💵</span> Mis Nóminas</Link>
                 <Link href="#" className={styles.navItem}><span className={styles.navIcon}>📅</span> Mi Horario</Link>
             </nav>

@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
@@ -15,8 +15,14 @@ model User {
   password      String?
   emailVerified DateTime?
   image         String?
-  role          String    @default("USER") // ADMIN, USER
+  role          String    @default("USER") // ADMIN, USER, HR
   isApproved    Boolean   @default(false)
+  
+  // Time Tracking Relations
+  timeEntries   TimeEntry[]
+  schedules     WorkSchedule[]
+  incidents     AttendanceIncident[]
+  
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -30,15 +36,15 @@ model VerificationToken {
 }
 
 model Campaign {
-  id          String   @id @default(cuid())
+  id          String         @id @default(cuid())
   name        String
-  slug        String   @unique
+  slug        String         @unique
   description String?
-  content     String?  @db.Text
-  status      String   @default("ACTIVE") // ACTIVE, INACTIVE
+  content     String?        @db.Text
+  status      String         @default("ACTIVE") // ACTIVE, INACTIVE
   tools       SoftwareTool[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }
 
 model QuickLink {
@@ -52,16 +58,76 @@ model QuickLink {
 }
 
 model SoftwareTool {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String?
   url         String
   icon        String?
   image       String?
-  locations   String[] @default([]) // DASHBOARD, TOOLS_PAGE
+  locations   String[]  @default([]) // DASHBOARD, TOOLS_PAGE
   campaignId  String?
   campaign    Campaign? @relation(fields: [campaignId], references: [id])
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// --- TIME TRACKING MODELS ---
+
+model TimeEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // IN, OUT, PAUSE, RESUME
+  timestamp DateTime @default(now())
+  
+  // Location Data
+  latitude  Float?
+  longitude Float?
+  accuracy  Float?   // in meters
+  
+  // Audit Trail
+  origin    String   @default("WEB") // WEB, MOBILE, AUTO
+  isManual  Boolean  @default(false)
+  reason    String?  // Reason for manual edit or late entry
+  editedBy  String?  // User ID of editor (HR/Admin)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, timestamp])
+}
+
+model WorkSchedule {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type      String   @default("FIXED") // FIXED, FLEXIBLE
+  startTime String?  // "09:00"
+  endTime   String?  // "18:00"
+  days      String[] // ["MON", "TUE", ...]
+  
+  toleranceMinutes Int @default(15)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AttendanceIncident {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date      DateTime 
+  type      String   // LATE, ABSENCE, EARLY_DEPARTURE, MISSING_PUNCH
+  status    String   @default("PENDING") // PENDING, JUSTIFIED, RESOLVED
+  
+  notes     String?
+  resolvedBy String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date, type])
 }
