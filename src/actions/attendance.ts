@@ -207,3 +207,15 @@ export const getDailyReport = async (date: Date) => {
         return { error: "Error al generar reporte diario" };
     }
 };
+
+export const getMyAttendance = async (startDate?: Date, endDate?: Date) => {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "No autorizado" };
+
+    // Default to current month if no dates provided
+    const now = new Date();
+    const start = startDate || new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = endDate || new Date();
+
+    return getAttendanceHistory(session.user.id, start, end);
+};
