@@ -1,23 +1,37 @@
 .container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 3rem 2rem;
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .header {
-    background: white;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(243, 244, 246, 0.5) 100%);
     padding: 3rem;
     border-radius: 24px;
-    border: 1px solid #F3F4F6;
-    margin-bottom: 2rem;
+    border-top: 4px solid #E60000;
+    margin-bottom: 3rem;
     text-align: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
 }
 
 .breadcrumb {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #9CA3AF;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
     display: flex;
     justify-content: center;
     gap: 0.5rem;
@@ -26,25 +40,32 @@
 .breadcrumb a {
     color: #6B7280;
     text-decoration: none;
+    transition: color 0.2s;
 }
 
 .breadcrumb a:hover {
     color: #E60000;
 }
 
+.currentCrumb {
+    color: #111;
+    font-weight: 500;
+}
+
 .title {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 800;
     color: #111;
     margin-bottom: 1rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
 }
 
 .description {
-    font-size: 1.15rem;
-    color: #6B7280;
+    font-size: 1.25rem;
+    color: #4B5563;
     line-height: 1.6;
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
@@ -52,117 +73,77 @@
     background: white;
     padding: 3rem;
     border-radius: 24px;
-    border: 1px solid #F3F4F6;
     min-height: 400px;
+    max-width: 900px;
+    margin: 0 auto 3rem auto;
 }
 
 .dynamicContent {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.8;
     color: #374151;
 }
 
 .dynamicContent h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-top: 2rem;
     margin-bottom: 1rem;
     color: #111;
 }
 
-.dynamicContent p {
-    margin-bottom: 1.5rem;
-}
-
-.dynamicContent ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.dynamicContent li {
-    margin-bottom: 0.5rem;
-}
-
-.emptyState {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: #6B7280;
-}
-
-.emptyIcon {
-    font-size: 4rem;
-    margin-bottom: 1.5rem;
-    opacity: 0.5;
-}
-
-.footer {
-    margin-top: 3rem;
-    display: flex;
-    justify-content: center;
-}
-
-.backButton {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: white;
-    color: #374151;
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    font-weight: 600;
-    text-decoration: none;
-    border: 1px solid #E5E7EB;
-    transition: all 0.2s;
-}
-
-.backButton:hover {
-    background: #F9FAFB;
-    border-color: #D1D5DB;
-    transform: translateY(-1px);
-}
-
 .toolsSection {
-    margin-top: 3rem;
+    margin-top: 2rem;
+}
+
+.toolsHeader {
+    text-align: center;
+    margin-bottom: 3rem;
 }
 
 .sectionTitle {
     font-size: 1.5rem;
     font-weight: 700;
     color: #111;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #F3F4F6;
-    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.sectionSubtitle {
+    color: #6B7280;
+    font-size: 1.1rem;
 }
 
 .toolsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
 .toolCard {
     background: white;
-    border: 1px solid #E5E7EB;
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    border-left: 4px solid transparent;
+    /* Accent placeholder */
     border-radius: 16px;
     padding: 1.5rem;
     display: flex;
     align-items: center;
     gap: 1.25rem;
     text-decoration: none;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
 }
 
 .toolCard:hover {
-    transform: translateY(-4px);
-    border-color: #E60000;
-    box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+    border-left-color: #E60000;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .toolIcon {
     width: 64px;
-    /* Matches Dashboard tool icon size roughly or adapts */
     height: 64px;
     flex-shrink: 0;
     display: flex;
@@ -170,8 +151,20 @@
     justify-content: center;
     background: #F9FAFB;
     border-radius: 12px;
-    font-size: 1.75rem;
+    font-size: 2rem;
     color: #374151;
+    transition: transform 0.3s ease;
+}
+
+.toolCard:hover .toolIcon {
+    transform: scale(1.05);
+}
+
+.toolImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .toolContent {
@@ -180,7 +173,7 @@
 
 .toolName {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: #111;
     margin-bottom: 0.25rem;
 }
@@ -189,6 +182,68 @@
     font-size: 0.9rem;
     color: #6B7280;
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.toolAction {
+    font-size: 1.2rem;
+    color: #E60000;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.toolCard:hover .toolAction {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 6rem 2rem;
+    color: #6B7280;
+    background: #F9FAFB;
+    border-radius: 24px;
+    margin-top: 2rem;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.3;
+}
+
+.footer {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem;
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    color: #374151;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    /* Pill shape */
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #E5E7EB;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.backButton:hover {
+    background: #F9FAFB;
+    border-color: #D1D5DB;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -197,10 +252,14 @@
     }
 
     .header {
-        padding: 2rem;
+        padding: 2rem 1rem;
     }
 
     .title {
         font-size: 2rem;
+    }
+
+    .toolsGrid {
+        grid-template-columns: 1fr;
     }
 }
