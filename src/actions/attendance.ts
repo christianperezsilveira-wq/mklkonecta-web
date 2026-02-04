@@ -137,3 +137,73 @@ export const togglePause = async (location?: { lat?: number; lng?: number; accur
         return { error: "Error al cambiar estado de pausa" };
     }
 };
+
+// --- REPORTING ACTIONS ---
+
+export const getAttendanceHistory = async (userId: string, startDate?: Date, endDate?: Date) => {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "No autorizado" };
+    // Users can see their own, Admin/HR can see all (logic to be added if needed)
+    if (session.user.role !== "ADMIN" && session.user.id !== userId) return { error: "No autorizado" };
+
+    try {
+        const history = await db.timeEntry.findMany({
+            where: {
+                userId,
+                timestamp: {
+                    gte: startDate,
+                    lte: endDate
+                }
+            },
+            orderBy: { timestamp: 'desc' }
+        });
+        return { success: true, data: history };
+    } catch (error) {
+        return { error: "Error al obtener historial" };
+    }
+};
+
+export const getDailyReport = async (date: Date) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    const start = new Date(date);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(date);
+    end.setHours(23, 59, 59, 999);
+
+    try {
+        // Fetch all users and their entries for the day
+        const users = await db.user.findMany({
+            where: { role: { not: "ADMIN" } }, // Filter admins? Maybe show all.
+            select: { id: true, name: true, email: true, image: true }
+        });
+
+        const entries = await db.timeEntry.findMany({
+            where: {
+                timestamp: { gte: start, lte: end }
+            }
+        });
+
+        // Process data
+        const report = users.map(user => {
+            const userEntries = entries.filter(e => e.userId === user.id).sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+
+            const firstIn = userEntries.find(e => e.type === "IN");
+            const lastOut = [...userEntries].reverse().find(e => e.type === "OUT");
+
+            return {
+                user,
+                firstIn: firstIn?.timestamp || null,
+                lastOut: lastOut?.timestamp || null,
+                status: firstIn ? (lastOut ? "COMPLETED" : "ACTIVE") : "ABSENT",
+                entriesCount: userEntries.length
+            };
+        });
+
+        return { success: true, data: report };
+    } catch (error) {
+        console.error("Daily Report Error:", error);
+        return { error: "Error al generar reporte diario" };
+    }
+};
