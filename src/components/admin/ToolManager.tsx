@@ -19,6 +19,7 @@ export const ToolManager = () => {
         locations: ['DASHBOARD', 'TOOLS_PAGE'], // Default to both
         campaignId: ''
     });
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     useEffect(() => {
         loadData();
@@ -131,12 +132,31 @@ export const ToolManager = () => {
                 <div className={styles.gridInputs}>
                     <div className={styles.inputGroup}>
                         <label>Icono (Emoji)</label>
-                        <input
-                            type="text"
-                            value={formData.icon}
-                            onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                            placeholder="Ej: ⚡"
-                        />
+                        <div className={styles.emojiPickerContainer}>
+                            <button
+                                type="button"
+                                className={styles.emojiButton}
+                                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                            >
+                                {formData.icon || 'Seleccionar...'}
+                            </button>
+                            {showEmojiPicker && (
+                                <div className={styles.emojiGrid}>
+                                    {['⚡', '🛠️', '📊', '📅', '👥', '📢', '📁', '✉️', '📞', '🌐', '🚀', '🔒', '🔔', '💬', '📝', '📈', '🛒', '🎓', '🚑', '✈️'].map(emoji => (
+                                        <div
+                                            key={emoji}
+                                            className={styles.emojiItem}
+                                            onClick={() => {
+                                                setFormData({ ...formData, icon: emoji });
+                                                setShowEmojiPicker(false);
+                                            }}
+                                        >
+                                            {emoji}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className={styles.inputGroup}>
                         <label>Imagen URL</label>
