@@ -1,0 +1,90 @@
+
+.turnWidget {
+    background: #FFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.turnIcon {
+    width: 40px;
+    height: 40px;
+    background-color: #FEF2F2;
+    color: #E60000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.turnInfo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.turnLabel {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #9CA3AF;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.turnStatus {
+    font-weight: 700;
+    color: #111;
+    font-size: 1rem;
+}
+
+.controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.btnStart {
+    background-color: #E60000;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btnStart:hover {
+    background-color: #c00000;
+}
+
+.btnPause, .btnStop, .btnResume {
+    padding: 0.5rem;
+    border: 1px solid #E5E7EB;
+    background: #F9FAFB;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.btnPause:hover, .btnStop:hover, .btnResume:hover {
+    background: #E5E7EB;
+}
+
+.btnResume {
+    width: auto;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}

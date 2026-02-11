@@ -2,6 +2,7 @@ import { auth } from '@/auth';
 import { getQuickLinks, getSoftwareTools } from '@/actions/admin';
 import styles from './dashboard.module.css';
 import Link from 'next/link';
+import { TimerWidget } from '@/components/dashboard/TimerWidget';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -24,13 +25,8 @@ export default async function DashboardPage() {
                 </div>
 
                 {/* Timer Widget */}
-                <div className={styles.turnWidget}>
-                    <div className={styles.turnIcon}>⏱️</div>
-                    <div className={styles.turnInfo}>
-                        <span className={styles.turnLabel}>ESTADO DE TURNO</span>
-                        <span className={styles.turnStatus}>Activo: 04h 32m</span>
-                    </div>
-                </div>
+                {/* Timer Widget */}
+                <TimerWidget />
             </div>
 
             <div className={styles.dashboardGrid}>
