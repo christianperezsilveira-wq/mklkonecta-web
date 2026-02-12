@@ -126,13 +126,14 @@ export const getQuickLinks = async () => {
  * SOFTWARE TOOLS ACTIONS
  */
 
-export const createSoftwareTool = async (values: { name: string; url: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; campaignId?: string }) => {
+export const createSoftwareTool = async (values: { name: string; url: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; category?: string; campaignId?: string }) => {
     const session = await auth();
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 
     try {
         const dataToCreate = {
             ...values,
+            category: values.category || "GENERAL",
             campaignId: values.campaignId && values.campaignId.trim() !== "" ? values.campaignId : null
         };
 
@@ -152,7 +153,7 @@ export const createSoftwareTool = async (values: { name: string; url: string; de
     }
 };
 
-export const updateSoftwareTool = async (id: string, values: { name?: string; url?: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; campaignId?: string }) => {
+export const updateSoftwareTool = async (id: string, values: { name?: string; url?: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; category?: string; campaignId?: string }) => {
     const session = await auth();
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 

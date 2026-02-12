@@ -17,6 +17,7 @@ export const ToolManager = () => {
         image: '',
         order: 0,
         locations: ['DASHBOARD', 'TOOLS_PAGE'], // Default to both
+        category: 'GENERAL',
         campaignId: ''
     });
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -63,6 +64,7 @@ export const ToolManager = () => {
                 image: '',
                 order: 0,
                 locations: ['DASHBOARD', 'TOOLS_PAGE'],
+                category: 'GENERAL',
                 campaignId: ''
             });
             setEditingTool(null);
@@ -84,6 +86,7 @@ export const ToolManager = () => {
             image: tool.image || '',
             order: tool.order,
             locations: tool.locations || [],
+            category: tool.category || 'GENERAL',
             campaignId: tool.campaignId || ''
         });
     };
@@ -199,6 +202,23 @@ export const ToolManager = () => {
                     </div>
                 </div>
 
+
+                <div className={styles.inputGroup}>
+                    <label>Categoría</label>
+                    <select
+                        value={formData.category}
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        className={styles.select}
+                    >
+                        <option value="GENERAL">General</option>
+                        <option value="COMUNICACION">Comunicación (Teléfono, Chat)</option>
+                        <option value="CRM">CRM / Gestión</option>
+                        <option value="ADMIN">Administración</option>
+                        <option value="RRHH">Recursos Humanos</option>
+                        <option value="OPERACIONES">Operaciones</option>
+                    </select>
+                </div>
+
                 <div className={styles.inputGroup}>
                     <label>Vincular a Campaña (Opcional)</label>
                     <select
@@ -234,6 +254,7 @@ export const ToolManager = () => {
                             setFormData({
                                 name: '', url: '', description: '', icon: '', image: '', order: 0,
                                 locations: ['DASHBOARD', 'TOOLS_PAGE'],
+                                category: 'GENERAL',
                                 campaignId: ''
                             });
                         }}>
@@ -241,7 +262,7 @@ export const ToolManager = () => {
                         </button>
                     )}
                 </div>
-            </form>
+            </form >
 
             <div className={styles.list}>
                 {tools.map((tool) => (
@@ -259,6 +280,7 @@ export const ToolManager = () => {
                                 <div className={styles.toolMeta}>
                                     {tool.locations?.includes('DASHBOARD') && <span className={styles.badge}>Dash</span>}
                                     {tool.locations?.includes('TOOLS_PAGE') && <span className={styles.badge}>Tools</span>}
+                                    <span className={styles.badge}>{tool.category || 'GENERAL'}</span>
                                     {tool.campaign && <span className={styles.badgeCampaign}>{tool.campaign.name}</span>}
                                 </div>
                             </div>
@@ -270,6 +292,6 @@ export const ToolManager = () => {
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     );
 };

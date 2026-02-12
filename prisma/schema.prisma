@@ -65,6 +65,7 @@ model SoftwareTool {
   icon        String?
   image       String?
   locations   String[]  @default([]) // DASHBOARD, TOOLS_PAGE
+  category    String    @default("GENERAL") // CALLS, CRM, ADMIN, GENERAL
   campaignId  String?
   campaign    Campaign? @relation(fields: [campaignId], references: [id])
   order       Int       @default(0)
