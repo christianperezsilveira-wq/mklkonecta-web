@@ -18,18 +18,43 @@ export default async function CampaignPage({ params }: CampaignParams) {
 
     const hasContent = !!campaign.content;
     const hasTools = campaign.tools && campaign.tools.length > 0;
+    const hasSections = campaign.sections && campaign.sections.length > 0;
 
     return (
         <div className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.breadcrumb}>
-                    <Link href="/dashboard">Dashboard</Link> / <span>Campañas</span> / <span className={styles.currentCrumb}>{campaign.name}</span>
+                    <Link href="/dashboard" className={styles.breadcrumbLink}>Dashboard</Link> / <span>Campañas</span> / <span className={styles.currentCrumb}>{campaign.name}</span>
                 </div>
                 <div className={styles.headerContent}>
                     <h1 className={styles.title}>{campaign.name}</h1>
-                    <p className={styles.description}>{campaign.description}</p>
+                    {campaign.description && <p className={styles.description}>{campaign.description}</p>}
                 </div>
             </header>
+
+            {hasSections && (
+                <div className={styles.sectionsContainer}>
+                    {campaign.sections.map((section: any) => (
+                        <div key={section.id} className={styles.sectionBlock}>
+                            <h2 className={styles.sectionTitle}>{section.title}</h2>
+                            <div className={styles.linksGrid}>
+                                {section.links.map((link: any) => (
+                                    <a
+                                        key={link.id}
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.linkCard}
+                                    >
+                                        <div className={styles.linkIcon}>{link.icon || '🔗'}</div>
+                                        <span className={styles.linkTitle}>{link.title}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             {hasContent && (
                 <div className={styles.contentWrapper}>
@@ -42,10 +67,9 @@ export default async function CampaignPage({ params }: CampaignParams) {
 
             {hasTools && (
                 <div className={styles.toolsSection}>
-                    {!hasContent && <div className={styles.toolsHeader}>
-                        <h2 className={styles.sectionTitle}>Herramientas Disponibles</h2>
-                        <p className={styles.sectionSubtitle}>Accesos directos recomendados para esta campaña</p>
-                    </div>}
+                    <div className={styles.toolsHeader}>
+                        <h2 className={styles.sectionTitle}>Herramientas Relacionadas</h2>
+                    </div>
                     <div className={styles.toolsGrid}>
                         {campaign.tools.map((tool: any) => (
                             <a
@@ -73,7 +97,7 @@ export default async function CampaignPage({ params }: CampaignParams) {
                 </div>
             )}
 
-            {!hasContent && !hasTools && (
+            {!hasContent && !hasTools && !hasSections && (
                 <div className={styles.emptyState}>
                     <div className={styles.emptyIcon}>📢</div>
                     <h3>Contenido en Preparación</h3>

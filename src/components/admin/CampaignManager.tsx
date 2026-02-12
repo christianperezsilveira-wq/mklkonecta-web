@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { createCampaign, updateCampaign, deleteCampaign } from '@/actions/admin';
 import styles from './CampaignManager.module.css';
 
+import { CampaignContentManager } from './CampaignContentManager';
+
 interface Campaign {
     id: string;
     name: string;
@@ -16,6 +18,7 @@ export const CampaignManager = ({ initialCampaigns }: { initialCampaigns: any[] 
     const [campaigns, setCampaigns] = useState<Campaign[]>(initialCampaigns);
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [managingContentId, setManagingContentId] = useState<string | null>(null);
     const [formData, setFormData] = useState({ name: '', slug: '', description: '' });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -51,6 +54,21 @@ export const CampaignManager = ({ initialCampaigns }: { initialCampaigns: any[] 
             }
         }
     };
+
+    if (managingContentId) {
+        const campaign = campaigns.find(c => c.id === managingContentId);
+        return (
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <button onClick={() => setManagingContentId(null)} className={styles.backButton}>
+                        ← Volver a Campañas
+                    </button>
+                    <h3>Gestionando Contenido: {campaign?.name}</h3>
+                </div>
+                <CampaignContentManager campaignId={managingContentId} />
+            </div>
+        );
+    }
 
     return (
         <div className={styles.container}>
@@ -103,8 +121,9 @@ export const CampaignManager = ({ initialCampaigns }: { initialCampaigns: any[] 
                             <span>/{c.slug}</span>
                         </div>
                         <div className={styles.itemActions}>
-                            <button onClick={() => handleEdit(c)}>✏️</button>
-                            <button onClick={() => handleDelete(c.id)}>🗑️</button>
+                            <button onClick={() => setManagingContentId(c.id)} title="Gestionar Contenido">📂</button>
+                            <button onClick={() => handleEdit(c)} title="Editar Campaña">✏️</button>
+                            <button onClick={() => handleDelete(c.id)} title="Eliminar">🗑️</button>
                         </div>
                     </div>
                 ))}

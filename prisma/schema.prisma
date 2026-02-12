@@ -43,6 +43,7 @@ model Campaign {
   content     String?        @db.Text
   status      String         @default("ACTIVE") // ACTIVE, INACTIVE
   tools       SoftwareTool[]
+  sections    CampaignSection[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 }
@@ -83,6 +84,29 @@ model ToolCategory {
   tools     SoftwareTool[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
+}
+
+model CampaignSection {
+  id          String         @id @default(cuid())
+  title       String
+  order       Int            @default(0)
+  campaignId  String
+  campaign    Campaign       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  links       CampaignLink[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model CampaignLink {
+  id          String          @id @default(cuid())
+  title       String
+  url         String
+  icon        String?
+  order       Int             @default(0)
+  sectionId   String
+  section     CampaignSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
 // --- TIME TRACKING MODELS ---

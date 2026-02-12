@@ -270,6 +270,121 @@ export const getToolCategories = async () => {
 };
 
 /**
+ * CAMPAIGN CONTENT ACTIONS
+ */
+
+export const createCampaignSection = async (values: { title: string; campaignId: string; order?: number }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const section = await db.campaignSection.create({
+            data: values
+        });
+        revalidatePath("/dashboard/campaigns/[slug]", "page");
+        revalidatePath("/dashboard/admin");
+        return { success: true, data: section };
+    } catch (error) {
+        return { error: "Error al crear la sección" };
+    }
+};
+
+export const updateCampaignSection = async (id: string, values: { title?: string; order?: number }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const section = await db.campaignSection.update({
+            where: { id },
+            data: values
+        });
+        revalidatePath("/dashboard/campaigns/[slug]", "page");
+        revalidatePath("/dashboard/admin");
+        return { success: true, data: section };
+    } catch (error) {
+        return { error: "Error al actualizar la sección" };
+    }
+};
+
+export const deleteCampaignSection = async (id: string) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        await db.campaignSection.delete({ where: { id } });
+        revalidatePath("/dashboard/campaigns/[slug]", "page");
+        revalidatePath("/dashboard/admin");
+        return { success: true };
+    } catch (error) {
+        return { error: "Error al eliminar la sección" };
+    }
+};
+
+export const createCampaignLink = async (values: { title: string; url: string; sectionId: string; order?: number; icon?: string }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const link = await db.campaignLink.create({
+            data: values
+        });
+        revalidatePath("/dashboard/campaigns/[slug]", "page");
+        revalidatePath("/dashboard/admin");
+        return { success: true, data: link };
+    } catch (error) {
+        return { error: "Error al crear el link" };
+    }
+};
+
+export const updateCampaignLink = async (id: string, values: { title?: string; url?: string; order?: number; icon?: string }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const link = await db.campaignLink.update({
+            where: { id },
+            data: values
+        });
+        revalidatePath("/dashboard/campaigns/[slug]", "page");
+        revalidatePath("/dashboard/admin");
+        return { success: true, data: link };
+    } catch (error) {
+        return { error: "Error al actualizar el link" };
+    }
+};
+
+export const deleteCampaignLink = async (id: string) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        await db.campaignLink.delete({ where: { id } });
+        revalidatePath("/dashboard/campaigns/[slug]", "page");
+        revalidatePath("/dashboard/admin");
+        return { success: true };
+    } catch (error) {
+        return { error: "Error al eliminar el link" };
+    }
+};
+
+export const getCampaignContent = async (campaignId: string) => {
+    try {
+        return await db.campaignSection.findMany({
+            where: { campaignId },
+            orderBy: { order: "asc" },
+            include: {
+                links: {
+                    orderBy: { order: "asc" }
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching campaign content:", error);
+        return [];
+    }
+};
+
+/**
  * Fetch a single campaign by slug
  */
 export const getCampaignBySlug = async (slug: string) => {
@@ -279,6 +394,14 @@ export const getCampaignBySlug = async (slug: string) => {
             include: {
                 tools: {
                     orderBy: { order: 'asc' }
+                },
+                sections: {
+                    orderBy: { order: 'asc' },
+                    include: {
+                        links: {
+                            orderBy: { order: 'asc' }
+                        }
+                    }
                 }
             }
         });
