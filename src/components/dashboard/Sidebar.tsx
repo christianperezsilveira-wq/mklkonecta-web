@@ -38,7 +38,7 @@ export const Sidebar = ({ userRole, campaigns = [] }: { userRole?: string; campa
                             className={`${styles.navItem} ${pathname === '/dashboard/admin' ? styles.active : ''}`}
                         >
                             <span className={styles.navIcon}>⚙️</span>
-                            Gestionar Panel
+                            Panel de Control
                         </Link>
                         <Link
                             href="/dashboard/users"
