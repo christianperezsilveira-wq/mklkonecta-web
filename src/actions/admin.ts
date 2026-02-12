@@ -393,13 +393,13 @@ export const getCampaignBySlug = async (slug: string) => {
             where: { slug },
             include: {
                 tools: {
-                    orderBy: { order: 'asc' }
+                    orderBy: { name: 'asc' }
                 },
                 sections: {
-                    orderBy: { order: 'asc' },
+                    orderBy: { title: 'asc' },
                     include: {
                         links: {
-                            orderBy: { order: 'asc' }
+                            orderBy: { title: 'asc' }
                         }
                     }
                 }

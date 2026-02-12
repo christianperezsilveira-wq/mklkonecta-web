@@ -32,70 +32,75 @@ export default async function CampaignPage({ params }: CampaignParams) {
                 </div>
             </header>
 
-            {hasSections && (
-                <div className={styles.sectionsContainer}>
-                    {campaign.sections.map((section: any) => (
-                        <div key={section.id} className={styles.sectionBlock}>
-                            <h2 className={styles.sectionTitle}>{section.title}</h2>
-                            <div className={styles.linksGrid}>
-                                {section.links.map((link: any) => (
-                                    <a
-                                        key={link.id}
-                                        href={link.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles.linkCard}
-                                    >
-                                        <div className={styles.linkIcon}>{link.icon || '🔗'}</div>
-                                        <span className={styles.linkTitle}>{link.title}</span>
-                                    </a>
-                                ))}
-                            </div>
+            <div className={styles.mainGrid}>
+                {/* Left Column: Content + Sections */}
+                <div className={styles.contentColumn}>
+                    {hasContent && (
+                        <div className={styles.contentWrapper}>
+                            <div
+                                className={styles.dynamicContent}
+                                dangerouslySetInnerHTML={{ __html: campaign.content as string }}
+                            />
                         </div>
-                    ))}
-                </div>
-            )}
+                    )}
 
-            {hasContent && (
-                <div className={styles.contentWrapper}>
-                    <div
-                        className={styles.dynamicContent}
-                        dangerouslySetInnerHTML={{ __html: campaign.content as string }}
-                    />
+                    {hasSections && (
+                        <div className={styles.sectionsContainer}>
+                            {campaign.sections.map((section: any) => (
+                                <div key={section.id} className={styles.sectionBlock}>
+                                    <h2 className={styles.sectionTitle}>{section.title}</h2>
+                                    <div className={styles.linksGrid}>
+                                        {section.links.map((link: any) => (
+                                            <a
+                                                key={link.id}
+                                                href={link.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={styles.linkCard}
+                                            >
+                                                <div className={styles.linkIcon}>{link.icon || '🔗'}</div>
+                                                <span className={styles.linkTitle}>{link.title}</span>
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
-            )}
 
-            {hasTools && (
-                <div className={styles.toolsSection}>
-                    <div className={styles.toolsHeader}>
-                        <h2 className={styles.sectionTitle}>Herramientas Relacionadas</h2>
-                    </div>
-                    <div className={styles.toolsGrid}>
-                        {campaign.tools.map((tool: any) => (
-                            <a
-                                key={tool.id}
-                                href={tool.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={styles.toolCard}
-                            >
-                                <div className={styles.toolIcon}>
-                                    {tool.image ? (
-                                        <img src={tool.image} alt={tool.name} className={styles.toolImage} />
-                                    ) : (
-                                        tool.icon || '🛠️'
-                                    )}
-                                </div>
-                                <div className={styles.toolContent}>
-                                    <div className={styles.toolName}>{tool.name}</div>
-                                    <div className={styles.toolDesc}>{tool.description}</div>
-                                </div>
-                                <div className={styles.toolAction}>➜</div>
-                            </a>
-                        ))}
-                    </div>
-                </div>
-            )}
+                {/* Right Column: Tools Sidebar */}
+                {hasTools && (
+                    <aside className={styles.sidebar}>
+                        <div className={styles.sidebarHeader}>
+                            <h3>Herramientas</h3>
+                        </div>
+                        <div className={styles.sidebarTools}>
+                            {campaign.tools.map((tool: any) => (
+                                <a
+                                    key={tool.id}
+                                    href={tool.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.sidebarToolCard}
+                                >
+                                    <div className={styles.sidebarToolIcon}>
+                                        {tool.image ? (
+                                            <img src={tool.image} alt={tool.name} />
+                                        ) : (
+                                            tool.icon || '🛠️'
+                                        )}
+                                    </div>
+                                    <div className={styles.sidebarToolInfo}>
+                                        <span className={styles.sidebarToolName}>{tool.name}</span>
+                                    </div>
+                                    <span className={styles.sidebarArrow}>→</span>
+                                </a>
+                            ))}
+                        </div>
+                    </aside>
+                )}
+            </div>
 
             {!hasContent && !hasTools && !hasSections && (
                 <div className={styles.emptyState}>
