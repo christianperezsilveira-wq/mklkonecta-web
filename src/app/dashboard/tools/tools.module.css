@@ -1,0 +1,139 @@
+.container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #6B7280;
+    font-size: 1.1rem;
+}
+
+.adminLink {
+    background-color: #111827;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.adminLink:hover {
+    background-color: #374151;
+    transform: translateY(-1px);
+}
+
+.categorySection {
+    margin-bottom: 3rem;
+}
+
+.categoryTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bullet {
+    color: #E60000;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    /* Changed to start for better text alignment */
+    gap: 1rem;
+    text-decoration: none;
+    border: 1px solid #E5E7EB;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: #E60000;
+}
+
+.iconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background-color: #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.iconEmoji {
+    font-size: 1.5rem;
+}
+
+.iconImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cardContent {
+    flex: 1;
+    min-width: 0;
+    /* Prevent text overflow issues */
+}
+
+.cardTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardDesc {
+    font-size: 0.875rem;
+    color: #6B7280;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 4rem;
+    background: #F9FAFB;
+    border-radius: 12px;
+    color: #6B7280;
+}

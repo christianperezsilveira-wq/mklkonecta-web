@@ -15,16 +15,6 @@ export default async function DashboardPage() {
     const allTools = await getSoftwareTools();
     const softwareTools = allTools.filter(tool => tool.locations?.includes('DASHBOARD'));
 
-    // Group tools by category
-    const toolsByCategory = softwareTools.reduce((acc: any, tool: any) => {
-        const category = tool.category || "GENERAL";
-        if (!acc[category]) acc[category] = [];
-        acc[category].push(tool);
-        return acc;
-    }, {});
-
-    const categories = Object.keys(toolsByCategory).sort();
-
     return (
         <div>
             {/* Welcome Section */}
@@ -42,63 +32,51 @@ export default async function DashboardPage() {
             <div className={styles.dashboardGrid}>
                 {/* Main Column */}
                 <div className={styles.mainColumn}>
-                    {/* Configured Categories */}
-                    {categories.map(category => (
-                        <section key={category} style={{ marginBottom: '2rem' }}>
-                            <div className={styles.sectionHeader}>
-                                <h2 className={styles.sectionTitle}>
-                                    <span style={{ color: '#E60000' }}>❖</span> {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}
-                                </h2>
-                            </div>
+                    {/* Tools Grid */}
+                    <section>
+                        <div className={styles.sectionHeader}>
+                            <h2 className={styles.sectionTitle}>
+                                <span style={{ color: '#E60000' }}>❖</span> Herramientas de Software
+                            </h2>
+                            <a href="/dashboard/tools" className={styles.sectionAction}>Ver todas</a>
+                        </div>
 
-                            <div className={styles.toolsGrid}>
-                                {toolsByCategory[category].map((tool: any) => (
-                                    <a
-                                        key={tool.id}
-                                        href={tool.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles.toolCard}
-                                    >
-                                        <div className={styles.toolIcon}>
-                                            {tool.image ? (
-                                                <img src={tool.image} alt={tool.name} style={{ width: '100%', height: '100%', borderRadius: '8px' }} />
-                                            ) : (
-                                                tool.icon || '🛠️'
-                                            )}
-                                        </div>
-                                        <div className={styles.toolContent}>
-                                            <div className={styles.toolName}>{tool.name}</div>
-                                            <div className={styles.toolDesc}>{tool.description}</div>
-                                        </div>
-                                    </a>
-                                ))}
-                            </div>
-                        </section>
-                    ))}
+                        <div className={styles.toolsGrid}>
+                            {softwareTools.slice(0, 8).map((tool: any) => (
+                                <a
+                                    key={tool.id}
+                                    href={tool.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.toolCard}
+                                >
+                                    <div className={styles.toolIcon}>
+                                        {tool.image ? (
+                                            <img src={tool.image} alt={tool.name} style={{ width: '100%', height: '100%', borderRadius: '8px' }} />
+                                        ) : (
+                                            tool.icon || '🛠️'
+                                        )}
+                                    </div>
+                                    <div className={styles.toolContent}>
+                                        <div className={styles.toolName}>{tool.name}</div>
+                                        <div className={styles.toolDesc}>{tool.description}</div>
+                                    </div>
+                                </a>
+                            ))}
 
-                    {/* Unconfigured / Empty State */}
-                    {softwareTools.length === 0 && (
-                        <section>
-                            <div className={styles.sectionHeader}>
-                                <h2 className={styles.sectionTitle}>
-                                    <span style={{ color: '#E60000' }}>❖</span> Herramientas de Software
-                                </h2>
-                                {userRole === 'ADMIN' && <a href="/dashboard/tools" className={styles.sectionAction}>Gestionar</a>}
-                            </div>
-                            <div className={styles.toolsGrid}>
-                                {/* Add Tool Button - Only for Admins */}
-                                {userRole === 'ADMIN' && (
-                                    <Link href="/dashboard/admin" className={`${styles.toolCard} ${styles.addToolCard}`}>
-                                        <span>+</span> AÑADIR TOOL
-                                    </Link>
-                                )}
+                            {userRole === 'ADMIN' && (
+                                <Link href="/dashboard/admin" className={`${styles.toolCard} ${styles.addToolCard}`}>
+                                    <span>+</span> AÑADIR TOOL
+                                </Link>
+                            )}
+
+                            {softwareTools.length === 0 && userRole !== 'ADMIN' && (
                                 <p style={{ color: '#9CA3AF', fontSize: '0.9rem', gridColumn: '1/-1', textAlign: 'center', padding: '2rem' }}>
                                     No hay herramientas configuradas.
                                 </p>
-                            </div>
-                        </section>
-                    )}
+                            )}
+                        </div>
+                    </section>
 
                     {/* Culture Section */}
                     <section>

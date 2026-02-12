@@ -126,14 +126,15 @@ export const getQuickLinks = async () => {
  * SOFTWARE TOOLS ACTIONS
  */
 
-export const createSoftwareTool = async (values: { name: string; url: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; category?: string; campaignId?: string }) => {
+export const createSoftwareTool = async (values: { name: string; url: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; categoryId?: string; campaignId?: string }) => {
     const session = await auth();
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 
     try {
         const dataToCreate = {
             ...values,
-            category: values.category || "GENERAL",
+            category: "DEPRECATED", // Maintain for now
+            categoryId: values.categoryId && values.categoryId.trim() !== "" ? values.categoryId : null,
             campaignId: values.campaignId && values.campaignId.trim() !== "" ? values.campaignId : null
         };
 
@@ -153,13 +154,14 @@ export const createSoftwareTool = async (values: { name: string; url: string; de
     }
 };
 
-export const updateSoftwareTool = async (id: string, values: { name?: string; url?: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; category?: string; campaignId?: string }) => {
+export const updateSoftwareTool = async (id: string, values: { name?: string; url?: string; description?: string; icon?: string; image?: string; order?: number; locations?: string[]; categoryId?: string; campaignId?: string }) => {
     const session = await auth();
     if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
 
     try {
         const dataToUpdate = {
             ...values,
+            categoryId: values.categoryId && values.categoryId.trim() !== "" ? values.categoryId : null,
             campaignId: values.campaignId && values.campaignId.trim() !== "" ? values.campaignId : null
         };
 
@@ -199,10 +201,70 @@ export const getSoftwareTools = async () => {
     try {
         return await db.softwareTool.findMany({
             orderBy: { order: "asc" },
-            include: { campaign: true }
+            include: { campaign: true, toolCategory: true }
         });
     } catch (error) {
         console.error("Error fetching software tools:", error);
+        return [];
+    }
+};
+
+/**
+ * TOOL CATEGORIES ACTIONS
+ */
+
+export const createToolCategory = async (values: { name: string; slug: string; order?: number }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const category = await db.toolCategory.create({
+            data: values
+        });
+        revalidatePath("/dashboard/tools");
+        return { success: true, data: category };
+    } catch (error) {
+        return { error: "Error al crear la categoría" };
+    }
+};
+
+export const updateToolCategory = async (id: string, values: { name?: string; slug?: string; order?: number }) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        const category = await db.toolCategory.update({
+            where: { id },
+            data: values
+        });
+        revalidatePath("/dashboard/tools");
+        return { success: true, data: category };
+    } catch (error) {
+        return { error: "Error al actualizar la categoría" };
+    }
+};
+
+export const deleteToolCategory = async (id: string) => {
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") return { error: "No autorizado" };
+
+    try {
+        await db.toolCategory.delete({ where: { id } });
+        revalidatePath("/dashboard/tools");
+        return { success: true };
+    } catch (error) {
+        return { error: "Error al eliminar la categoría" };
+    }
+};
+
+export const getToolCategories = async () => {
+    try {
+        return await db.toolCategory.findMany({
+            orderBy: { order: "asc" },
+            include: { tools: true }
+        });
+    } catch (error) {
+        console.error("Error fetching tool categories:", error);
         return [];
     }
 };

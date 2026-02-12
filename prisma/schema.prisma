@@ -65,12 +65,24 @@ model SoftwareTool {
   icon        String?
   image       String?
   locations   String[]  @default([]) // DASHBOARD, TOOLS_PAGE
-  category    String    @default("GENERAL") // CALLS, CRM, ADMIN, GENERAL
+  category    String    @default("GENERAL") // Deprecated, use categoryRelation
   campaignId  String?
   campaign    Campaign? @relation(fields: [campaignId], references: [id])
+  categoryId  String?
+  toolCategory ToolCategory? @relation(fields: [categoryId], references: [id])
   order       Int       @default(0)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+}
+
+model ToolCategory {
+  id        String         @id @default(cuid())
+  name      String
+  slug      String         @unique
+  order     Int            @default(0)
+  tools     SoftwareTool[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
 
 // --- TIME TRACKING MODELS ---
