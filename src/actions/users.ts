@@ -123,3 +123,23 @@ export const updateUserProfile = async (data: { name: string; image?: string }) 
         return { error: "Error al actualizar perfil" };
     }
 };
+
+export const adminUpdateUser = async (userId: string, data: { name: string; email: string }) => {
+    try {
+        await checkAdmin();
+        if (!data.name || !data.email) {
+            return { error: "El nombre y el email son obligatorios" };
+        }
+        await db.user.update({
+            where: { id: userId },
+            data: {
+                name: data.name,
+                email: data.email
+            }
+        });
+        revalidatePath("/dashboard/users");
+        return { success: "Usuario actualizado correctamente" };
+    } catch (error) {
+        return { error: "Error al actualizar usuario" };
+    }
+};

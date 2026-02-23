@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styles from './users.module.css';
-import { getUsers, toggleUserApproval, deleteUser, toggleUserRole } from '@/actions/users';
+import { getUsers, toggleUserApproval, deleteUser, toggleUserRole, adminUpdateUser } from '@/actions/users';
 
 type User = {
     id: string;
@@ -18,6 +18,8 @@ export default function UsersClient() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [editingUserId, setEditingUserId] = useState<string | null>(null);
+    const [editFormData, setEditFormData] = useState({ name: '', email: '' });
 
     const loadUsers = async () => {
         setLoading(true);
@@ -47,6 +49,29 @@ export default function UsersClient() {
     const handleRole = async (id: string, currentRole: string) => {
         await toggleUserRole(id, currentRole);
         loadUsers();
+    };
+
+    const startEdit = (user: User) => {
+        setEditingUserId(user.id);
+        setEditFormData({ name: user.name || '', email: user.email });
+    };
+
+    const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
+    };
+
+    const handleSaveEdit = async (userId: string) => {
+        const res = await adminUpdateUser(userId, editFormData);
+        if (res?.success) {
+            setEditingUserId(null);
+            loadUsers();
+        } else if (res?.error) {
+            alert(res.error);
+        }
+    };
+
+    const cancelEdit = () => {
+        setEditingUserId(null);
     };
 
     const filteredUsers = users.filter(u =>
@@ -117,10 +142,17 @@ export default function UsersClient() {
                                                 <div className={styles.avatar}>
                                                     {user.name ? user.name[0].toUpperCase() : user.email[0].toUpperCase()}
                                                 </div>
-                                                <div className={styles.userInfo}>
-                                                    <span className={styles.userName}>{user.name || "Sin Nombre"}</span>
-                                                    <span className={styles.userEmail}>{user.email}</span>
-                                                </div>
+                                                {editingUserId === user.id ? (
+                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                        <input name="name" value={editFormData.name} onChange={handleEditChange} className={styles.editInput} placeholder="Nombre" />
+                                                        <input name="email" value={editFormData.email} onChange={handleEditChange} className={styles.editInput} placeholder="Email" />
+                                                    </div>
+                                                ) : (
+                                                    <div className={styles.userInfo}>
+                                                        <span className={styles.userName}>{user.name || "Sin Nombre"}</span>
+                                                        <span className={styles.userEmail}>{user.email}</span>
+                                                    </div>
+                                                )}
                                             </div>
                                         </td>
                                         <td>
@@ -149,31 +181,47 @@ export default function UsersClient() {
                                         </td>
                                         <td>
                                             <div className={styles.actions}>
-                                                {!user.isApproved && (
-                                                    <button
-                                                        className={`${styles.actionBtn} ${styles.btnApprove}`}
-                                                        onClick={() => handleApproval(user.id, user.isApproved)}
-                                                        title="Aprobar Usuario"
-                                                    >
-                                                        ✅ Aprobar
-                                                    </button>
+                                                {editingUserId === user.id ? (
+                                                    <>
+                                                        <button onClick={() => handleSaveEdit(user.id)} className={`${styles.actionBtn} ${styles.btnApprove}`} title="Guardar cambios">💾</button>
+                                                        <button onClick={cancelEdit} className={`${styles.actionBtn} ${styles.btnReject}`} title="Cancelar">❌</button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {!user.isApproved && (
+                                                            <button
+                                                                className={`${styles.actionBtn} ${styles.btnApprove}`}
+                                                                onClick={() => handleApproval(user.id, user.isApproved)}
+                                                                title="Aprobar Usuario"
+                                                            >
+                                                                ✅ Aprobar
+                                                            </button>
+                                                        )}
+                                                        {user.isApproved && (
+                                                            <button
+                                                                className={styles.actionBtn}
+                                                                onClick={() => handleApproval(user.id, user.isApproved)}
+                                                                title="Suspender Usuario"
+                                                            >
+                                                                ⛔
+                                                            </button>
+                                                        )}
+                                                        <button
+                                                            className={styles.actionBtn}
+                                                            onClick={() => startEdit(user)}
+                                                            title="Editar Usuario"
+                                                        >
+                                                            ✏️
+                                                        </button>
+                                                        <button
+                                                            className={`${styles.actionBtn} ${styles.btnReject}`}
+                                                            onClick={() => handleDelete(user.id)}
+                                                            title="Eliminar Usuario"
+                                                        >
+                                                            🗑️
+                                                        </button>
+                                                    </>
                                                 )}
-                                                {user.isApproved && (
-                                                    <button
-                                                        className={styles.actionBtn}
-                                                        onClick={() => handleApproval(user.id, user.isApproved)}
-                                                        title="Suspender Usuario"
-                                                    >
-                                                        ⛔
-                                                    </button>
-                                                )}
-                                                <button
-                                                    className={`${styles.actionBtn} ${styles.btnReject}`}
-                                                    onClick={() => handleDelete(user.id)}
-                                                    title="Eliminar Usuario"
-                                                >
-                                                    🗑️
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>
