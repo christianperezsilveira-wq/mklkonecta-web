@@ -8,10 +8,10 @@ import cardStyles from '@/components/ui/Card.module.css'; // Accessing internal 
 import { useLanguage } from '@/context/LanguageContext';
 
 const serviceImages: Record<string, string> = {
-    business: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800", // Meeting room
-    it: "https://images.unsplash.com/photo-1558494949-ef526b01201b?auto=format&fit=crop&q=80&w=800", // Servers
-    customer: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800", // Support agent
-    strategic: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800" // Financial docs
+    business: "https://images.unsplash.com/photo-1665686306574-1aeec1f1821a?auto=format&fit=crop&q=80&w=800", // Business process
+    it: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800", // Tech/Servers
+    customer: "https://images.unsplash.com/photo-1556740714-a9391ab1a4ed?auto=format&fit=crop&q=80&w=800", // Customer support
+    strategic: "https://images.unsplash.com/photo-1507675984201-5744f6acaeb7?auto=format&fit=crop&q=80&w=800" // Analytics/Dashboard
 };
 
 export const Services = () => {

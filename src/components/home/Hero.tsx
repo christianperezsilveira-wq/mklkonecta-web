@@ -33,8 +33,8 @@ export const Hero = () => {
 
                 <div className={styles.imageContainer}>
                     <Image
-                        src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
-                        alt="MKL Office"
+                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200"
+                        alt="MKL Technology"
                         fill
                         className={styles.image}
                         priority
