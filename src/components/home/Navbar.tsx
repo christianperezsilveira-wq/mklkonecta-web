@@ -30,10 +30,10 @@ export const Navbar = () => {
             </Link>
 
             <div className={styles.links}>
-                <Link href="#services" className={styles.link}>{t.nav.services}</Link>
-                <Link href="#about" className={styles.link}>{t.nav.about}</Link>
-                <Link href="#solutions" className={styles.link}>{t.nav.solutions}</Link>
-                <Link href="#contact" className={styles.link}>{t.nav.contact}</Link>
+                <Link href="/#services" className={styles.link}>{t.nav.services}</Link>
+                <Link href="/#about" className={styles.link}>{t.nav.about}</Link>
+                <Link href="/#solutions" className={styles.link}>{t.nav.solutions}</Link>
+                <Link href="/contacto" className={styles.link}>{t.nav.contact}</Link>
             </div>
 
             <div className={styles.actions}>

@@ -72,6 +72,20 @@ export const translations = {
                 cookies: 'POLÍTICA DE COOKIES'
             },
             copyright: 'MKL Konecta. Todos los derechos reservados. Soluciones de Negocio Premium.'
+        },
+        contact: {
+            badge: 'Atención Exclusiva',
+            title: 'Hablemos de tu próximo gran proyecto',
+            description: 'Nuestro equipo de asesores está listo para diseñar la solución de outsourcing y tecnología perfecta para tu empresa.',
+            infoTitle: 'Información Corporativa',
+            infoSubtitle: 'Estamos ubicados en el corazón financiero, listos para atender las necesidades de clientes globales.',
+            formTitle: 'Envíanos un Mensaje',
+            formName: 'Nombre Completo',
+            formEmail: 'Correo Corporativo',
+            formCompany: 'Empresa',
+            formMessage: '¿En qué podemos ayudarte?',
+            formSuccess: 'Mensaje enviado con éxito. Un asesor se comunicará a la brevedad.',
+            formSubmit: 'Solicitar Asesoramiento'
         }
     },
     en: {
@@ -145,6 +159,20 @@ export const translations = {
                 cookies: 'COOKIE POLICY'
             },
             copyright: 'MKL Konecta. All rights reserved. Premium Business Solutions.'
+        },
+        contact: {
+            badge: 'Exclusive Care',
+            title: 'Lets discuss your next big project',
+            description: 'Our advisory team is ready to design the perfect outsourcing and technology solution for your company.',
+            infoTitle: 'Corporate Information',
+            infoSubtitle: 'We are located in the financial heart, ready to serve the needs of global clients.',
+            formTitle: 'Send us a Message',
+            formName: 'Full Name',
+            formEmail: 'Corporate Email',
+            formCompany: 'Company',
+            formMessage: 'How can we help you?',
+            formSuccess: 'Message sent successfully. An advisor will contact you shortly.',
+            formSubmit: 'Request Advising'
         }
     }
 };
