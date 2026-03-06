@@ -86,6 +86,54 @@ export const translations = {
             formMessage: '¿En qué podemos ayudarte?',
             formSuccess: 'Mensaje enviado con éxito. Un asesor se comunicará a la brevedad.',
             formSubmit: 'Solicitar Asesoramiento'
+        },
+        serviciosPage: {
+            hero: {
+                badge: 'Soluciones Enterprise',
+                title: 'Transformando Negocios con Soluciones Expertas',
+                description: 'Nuestra suite completa de servicios empresariales está diseñada para impulsar su negocio, optimizar operaciones y lograr un crecimiento sostenible.',
+                btnPrimary: 'Explorar Servicios',
+                btnSecondary: 'Agendar Consultoría'
+            },
+            advisory: {
+                badge: 'Asesoría Estratégica',
+                title: 'Consultoría Empresarial',
+                description: 'Nuestros servicios expertos de consultoría están diseñados para optimizar sus procesos y estrategia para maximizar la eficiencia.',
+                items: [
+                    { title: 'Optimización de Procesos', description: 'Agilice sus operaciones para una máxima eficiencia y reducción de costos.' },
+                    { title: 'Planificación Estratégica', description: 'Desarrolle estrategias accionables para un crecimiento de mercado a largo plazo.' },
+                    { title: 'Gestión de Riesgos', description: 'Identifique y mitigue los riesgos empresariales de manera efectiva.' }
+                ],
+                link: 'Saber más sobre Consultoría'
+            },
+            digital: {
+                badge: 'Innovación Digital',
+                title: 'Transformación Digital',
+                description: 'Manténgase a la vanguardia con nuestras estrategias integrales de transformación digital. Ayudamos a integrar tecnologías de punta.',
+                items: [
+                    { title: 'Migración a la Nube', description: 'Transición sin problemas a entornos de nube escalables y seguros.' },
+                    { title: 'Modernización de Sistemas', description: 'Actualice sistemas heredados con tecnologías modernas para mejorar la agilidad.' },
+                    { title: 'Integración Tecnológica', description: 'Armonice sus aplicaciones de negocio para un flujo de trabajo unificado.' }
+                ],
+                link: 'Explorar Transformación Digital'
+            },
+            bi: {
+                badge: 'Inteligencia de Datos',
+                title: 'Business Intelligence',
+                description: 'Desbloquee información valiosa de sus datos con nuestras soluciones avanzadas de BI, impulsando decisiones basadas en datos.',
+                items: [
+                    { title: 'Visualización de Datos', description: 'Transforme conjuntos de datos complejos en representaciones visuales intuitivas.' },
+                    { title: 'Tableros de Rendimiento', description: 'Siga sus KPIs críticos con tableros personalizados en tiempo real.' },
+                    { title: 'Automatización de Reportes', description: 'Agilice sus procesos de reporte para ahorrar tiempo y asegurar precisión.' }
+                ],
+                link: 'Descubrir Soluciones BI'
+            },
+            cta: {
+                title: '¿Listo para Elevar su Empresa?',
+                description: 'Asóciese con nosotros hoy para transformar sus operaciones y alcanzar un crecimiento sin precedentes.',
+                btnPrimary: 'Empezar Hoy',
+                btnSecondary: 'Hablar con un Experto'
+            }
         }
     },
     en: {
@@ -173,6 +221,54 @@ export const translations = {
             formMessage: 'How can we help you?',
             formSuccess: 'Message sent successfully. An advisor will contact you shortly.',
             formSubmit: 'Request Advising'
+        },
+        serviciosPage: {
+            hero: {
+                badge: 'Enterprise Solutions',
+                title: 'Transforming Business Through Expert Solutions.',
+                description: 'Discover our comprehensive suite of enterprise-grade services designed to propel your business forward, optimize operations, and drive sustainable growth.',
+                btnPrimary: 'Explore Services',
+                btnSecondary: 'Schedule Consultation'
+            },
+            advisory: {
+                badge: 'Strategic Advisory',
+                title: 'Enterprise Consulting',
+                description: 'Our expert consulting services are tailored to optimize your business processes and strategy for maximum efficiency.',
+                items: [
+                    { title: 'Process Optimization', description: 'Streamline your operations for maximum efficiency and reduced costs.' },
+                    { title: 'Strategic Planning', description: 'Develop comprehensive, actionable strategies for sustainable long-term growth.' },
+                    { title: 'Risk Management', description: 'Identify, assess, and mitigate potential enterprise risks effectively.' }
+                ],
+                link: 'Learn more about Consulting'
+            },
+            digital: {
+                badge: 'Digital Innovation',
+                title: 'Digital Transformation',
+                description: 'Stay ahead of the curve with our comprehensive digital transformation strategies. We help you integrate cutting-edge technologies.',
+                items: [
+                    { title: 'Cloud Migration', description: 'Seamlessly transition your infrastructure to scalable, secure cloud environments.' },
+                    { title: 'Legacy System Modernization', description: 'Update outdated systems with modern technologies to improve agility.' },
+                    { title: 'Tech Integration', description: 'Harmonize disparate business applications for a unified, efficient workflow.' }
+                ],
+                link: 'Explore Digital Transformation'
+            },
+            bi: {
+                badge: 'Data Insights',
+                title: 'Business Intelligence',
+                description: 'Unlock valuable insights from your data with our advanced Business Intelligence solutions, driving data-backed decision-making.',
+                items: [
+                    { title: 'Data Visualization', description: 'Transform complex data sets into intuitive, actionable visual representations.' },
+                    { title: 'Performance Dashboards', description: 'Monitor critical KPIs with customized, real-time performance dashboards.' },
+                    { title: 'Reporting Automation', description: 'Streamline your reporting processes to save time and ensure accuracy.' }
+                ],
+                link: 'Discover BI Solutions'
+            },
+            cta: {
+                title: 'Ready to Elevate Your Enterprise?',
+                description: 'Partner with us today to transform your business operations and achieve unprecedented growth.',
+                btnPrimary: 'Get Started Today',
+                btnSecondary: 'Talk to an Expert'
+            }
         }
     }
 };
