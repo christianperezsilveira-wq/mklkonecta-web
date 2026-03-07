@@ -8,29 +8,7 @@ import { AuthError } from "next-auth";
 import { generateVerificationToken, generatePasswordResetToken } from "@/lib/tokens";
 import { sendVerificationEmail, sendPendingApprovalEmail, sendPasswordResetEmail } from "@/lib/mail";
 
-// Schema de Validación
-const RegisterSchema = z.object({
-    email: z.string().email({ message: "Email inválido" }),
-    password: z.string().min(6, { message: "Mínimo 6 caracteres" }),
-    name: z.string().min(1, { message: "Nombre requerido" }),
-});
-
-const LoginSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(1)
-});
-
-export const ResetSchema = z.object({
-    email: z.string().email({
-        message: "Email es requerido"
-    }),
-});
-
-export const NewPasswordSchema = z.object({
-    password: z.string().min(6, {
-        message: "Mínimo 6 caracteres requeridos"
-    }),
-});
+import { LoginSchema, RegisterSchema, ResetSchema, NewPasswordSchema } from "@/schemas";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
     const validatedFields = LoginSchema.safeParse(values);
