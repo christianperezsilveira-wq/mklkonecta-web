@@ -1,3 +1,4 @@
+import "server-only";
 import nodemailer from "nodemailer";
 
 const domain = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";

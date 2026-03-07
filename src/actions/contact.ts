@@ -1,3 +1,5 @@
+"use server";
+
 import { sendContactEmail as sendMail } from "@/lib/mail";
 
 export const sendContactEmail = async (formData: {
