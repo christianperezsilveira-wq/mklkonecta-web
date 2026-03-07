@@ -75,7 +75,7 @@ export const translations = {
         contact: {
             badge: 'Atención Exclusiva',
             title: 'Hablemos de tu próximo gran proyecto',
-            description: 'Nuestro equipo de asesores está listo para diseñar la solución de outsourcing y tecnología perfecta para tu empresa.',
+            description: 'Estamos listos para diseñar la solución de outsourcing y tecnología para tu empresa.',
             infoTitle: 'Información Corporativa',
             infoSubtitle: 'Estamos ubicados en el corazón financiero, listos para atender las necesidades de clientes globales.',
             formTitle: 'Envíanos un Mensaje',
