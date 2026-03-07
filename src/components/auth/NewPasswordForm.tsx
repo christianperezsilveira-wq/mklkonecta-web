@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import styles from '@/app/login/login.module.css';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -10,6 +10,7 @@ import { newPassword } from '@/actions/auth';
 
 export const NewPasswordForm = () => {
     const searchParams = useSearchParams();
+    const router = useRouter();
     const token = searchParams.get("token");
 
     const [isPending, startTransition] = useTransition();
@@ -42,6 +43,13 @@ export const NewPasswordForm = () => {
                 .then((data) => {
                     setError(data?.error);
                     setSuccess(data?.success);
+
+                    if (data?.success) {
+                        // Esperar 2 segundos para que el usuario vea el mensaje y luego redirigir
+                        setTimeout(() => {
+                            router.push("/login");
+                        }, 2000);
+                    }
                 });
         });
     };
