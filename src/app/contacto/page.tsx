@@ -7,8 +7,36 @@ import { Footer } from "@/components/home/Footer";
 import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
 import styles from './Contacto.module.css';
 
+import { sendContactEmail } from "@/actions/contact";
+
 function ContactoContent() {
     const { t } = useLanguage();
+    const [isPending, startTransition] = React.useTransition();
+    const [error, setError] = React.useState<string | undefined>("");
+    const [success, setSuccess] = React.useState<string | undefined>("");
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setError("");
+        setSuccess("");
+
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name") as string;
+        const email = formData.get("email") as string;
+        const company = formData.get("company") as string;
+        const message = formData.get("message") as string;
+
+        startTransition(async () => {
+            const res = await sendContactEmail({ name, email, company, message });
+            if (res.error) {
+                setError(res.error);
+            } else if (res.success) {
+                setSuccess(res.success);
+                // Opcional: limpiar formulario
+                (e.target as HTMLFormElement).reset();
+            }
+        });
+    };
 
     return (
         <main className={styles.main}>
@@ -79,28 +107,38 @@ function ContactoContent() {
                         {/* Formulario */}
                         <div className={styles.formCard}>
                             <h2 className={styles.formTitle}>{t.contact?.formTitle || "Envíanos un Mensaje"}</h2>
-                            <form className={styles.form}>
+                            <form className={styles.form} onSubmit={handleSubmit}>
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="name">{t.contact?.formName || "Nombre Completo"}</label>
-                                    <input type="text" id="name" placeholder="Ej. Juan Pérez" required />
+                                    <input name="name" type="text" id="name" placeholder="Ej. Juan Pérez" required disabled={isPending} />
                                 </div>
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="email">{t.contact?.formEmail || "Correo Corporativo"}</label>
-                                    <input type="email" id="email" placeholder="juan@empresa.com" required />
+                                    <input name="email" type="email" id="email" placeholder="juan@empresa.com" required disabled={isPending} />
                                 </div>
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="company">{t.contact?.formCompany || "Empresa"}</label>
-                                    <input type="text" id="company" placeholder="Nombre de tu empresa" />
+                                    <input name="company" type="text" id="company" placeholder="Nombre de tu empresa" disabled={isPending} />
                                 </div>
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="message">{t.contact?.formMessage || "¿En qué podemos ayudarte?"}</label>
-                                    <textarea id="message" rows={4} placeholder="Describe tus necesidades de outsourcing o TI..." required></textarea>
+                                    <textarea name="message" id="message" rows={4} placeholder="Describe tus necesidades de outsourcing o TI..." required disabled={isPending}></textarea>
                                 </div>
-                                <button type="button" className={styles.submitButton} onClick={(e) => {
-                                    e.preventDefault();
-                                    alert(t.contact?.formSuccess || "Mensaje enviado con éxito. Un asesor se comunicará a la brevedad.");
-                                }}>
-                                    {t.contact?.formSubmit || "Solicitar Asesoramiento"}
+
+                                {error && (
+                                    <div style={{ padding: '0.75rem', backgroundColor: '#FEF2F2', color: '#DC2626', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.875rem', border: '1px solid #FCA5A5' }}>
+                                        ⚠️ {error}
+                                    </div>
+                                )}
+
+                                {success && (
+                                    <div style={{ padding: '0.75rem', backgroundColor: '#F0FDF4', color: '#16A34A', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.875rem', border: '1px solid #86EFAC' }}>
+                                        ✅ {success}
+                                    </div>
+                                )}
+
+                                <button type="submit" className={styles.submitButton} disabled={isPending}>
+                                    {isPending ? "Enviando..." : (t.contact?.formSubmit || "Solicitar Asesoramiento")}
                                 </button>
                             </form>
                         </div>
