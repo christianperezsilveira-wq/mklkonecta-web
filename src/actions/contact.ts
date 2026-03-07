@@ -23,11 +23,11 @@ export const sendContactEmail = async (formData: {
 
         console.log(`📧 Enviando formulario de contacto de: ${name} (${email})`);
 
-        // Enviamos el correo a la dirección corporativa
+        // Enviamos el correo temporalmente a Gmail para saltar la restricción de Sandbox de Resend
         const { data, error } = await resend.emails.send({
-            from: "onboarding@resend.dev", // Cambiar a info@mklkonecta.com una vez verificado el dominio
-            to: "contacto@mklkonecta.com",
-            subject: `Nuevo Mensaje de Contacto: ${name}`,
+            from: "onboarding@resend.dev",
+            to: "chrisaperezs@gmail.com",
+            subject: `Nuevo Mensaje de Contacto (MKL): ${name}`,
             html: `
                 <h1>Nuevo mensaje desde la web de MKL Konecta</h1>
                 <p><strong>Nombre:</strong> ${name}</p>
