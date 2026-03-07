@@ -163,7 +163,7 @@ export const adminTriggerPasswordReset = async (userId: string) => {
         );
 
         if (result?.error) {
-            return { error: `Error de Resend: ${JSON.stringify(result.error)}` };
+            return { error: "No se pudo enviar el correo mediante Zoho SMTP. Verifique la configuración." };
         }
 
         return { success: "Correo de restablecimiento enviado al usuario" };
