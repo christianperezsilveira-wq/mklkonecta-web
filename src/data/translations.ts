@@ -5,7 +5,6 @@ export const translations = {
         nav: {
             services: 'Servicios',
             about: 'Nosotros',
-            solutions: 'Soluciones',
             contact: 'Contacto',
             login: 'Acceso Empleados'
         },
@@ -140,7 +139,6 @@ export const translations = {
         nav: {
             services: 'Services',
             about: 'About',
-            solutions: 'Solutions',
             contact: 'Contact',
             login: 'Employee Access'
         },

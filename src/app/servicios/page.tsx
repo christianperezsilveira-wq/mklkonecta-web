@@ -76,7 +76,7 @@ function ServiciosContent() {
             </section>
 
             {/* Service 2: Digital Transformation (Reversed) */}
-            <section className={`${styles.section} bg-neutral-50`}>
+            <section className={`${styles.section} ${styles.lightBg}`}>
                 <div className={styles.container}>
                     <div className={`${styles.serviceGrid} ${styles.reverse}`}>
                         <div className={styles.imageWrapper}>
