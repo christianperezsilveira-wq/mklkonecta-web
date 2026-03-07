@@ -156,34 +156,47 @@ export const newVerification = async (token: string) => {
 };
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
-    const validatedFields = ResetSchema.safeParse(values);
+    try {
+        const validatedFields = ResetSchema.safeParse(values);
 
-    if (!validatedFields.success) {
-        return { error: "Email inválido" };
+        if (!validatedFields.success) {
+            return { error: "Email inválido" };
+        }
+
+        const { email: rawEmail } = validatedFields.data;
+        const email = rawEmail.toLowerCase();
+
+        const existingUser = await db.user.findUnique({
+            where: { email }
+        });
+
+        if (!existingUser) {
+            return { error: "Email no encontrado en nuestro sistema corporativo" };
+        }
+
+        // Generar token
+        const passwordResetToken = await generatePasswordResetToken(email);
+
+        // Intentar enviar email
+        const result = await sendPasswordResetEmail(
+            passwordResetToken.email,
+            passwordResetToken.token,
+        );
+
+        if (result?.error) {
+            console.error("Resend Error Detail:", result.error);
+            // Si es un error de dominio no verificado, lo informamos
+            if (JSON.stringify(result.error).includes("verify")) {
+                return { error: "Error de Envío: Debe verificar su dominio en el panel de Resend para enviar a correos externos." };
+            }
+            return { error: `Error de envío (${result.error.name}): ${result.error.message}` };
+        }
+
+        return { success: "Correo de restablecimiento enviado correctamente" };
+    } catch (error) {
+        console.error("ERROR CRÍTICO EN RESET ACTION:", error);
+        return { error: `Error técnico interno: ${error instanceof Error ? error.message : "Desconocido"}` };
     }
-
-    const { email: rawEmail } = validatedFields.data;
-    const email = rawEmail.toLowerCase();
-
-    const existingUser = await db.user.findUnique({
-        where: { email }
-    });
-
-    if (!existingUser) {
-        return { error: "Email no encontrado" };
-    }
-
-    const passwordResetToken = await generatePasswordResetToken(email);
-    const result = await sendPasswordResetEmail(
-        passwordResetToken.email,
-        passwordResetToken.token,
-    );
-
-    if (result?.error) {
-        return { error: "No se pudo enviar el correo. Verifique la configuración de Resend." };
-    }
-
-    return { success: "Correo de restablecimiento enviado" };
 };
 
 export const newPassword = async (
