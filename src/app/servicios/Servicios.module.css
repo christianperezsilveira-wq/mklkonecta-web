@@ -214,10 +214,11 @@
 
 /* CTA Section */
 .cta {
-    background: var(--color-primary);
-    color: white;
+    background: #f8fafc;
+    color: var(--color-foreground);
     text-align: center;
     padding: 7rem 2rem;
+    border-top: 1px solid var(--color-border);
 }
 
 .ctaContent {
@@ -225,18 +226,19 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .ctaTitle {
-    font-size: 3rem;
+    font-size: 2.75rem;
     font-weight: 900;
     letter-spacing: -0.02em;
+    color: var(--color-foreground);
 }
 
 .ctaDescription {
-    font-size: 1.35rem;
-    opacity: 0.95;
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
     line-height: 1.6;
 }
 
@@ -244,40 +246,41 @@
     display: flex;
     gap: 1.5rem;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 .btnWhite {
-    background: white;
-    color: var(--color-primary);
-    padding: 1.125rem 3rem;
-    border-radius: 10px;
+    background: var(--color-primary);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
     font-weight: 800;
     font-size: 1.125rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(230, 0, 0, 0.2);
     transition: all 0.3s ease;
     border: none;
 }
 
 .btnWhite:hover {
-    background: #f8fafc;
-    transform: scale(1.05);
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(230, 0, 0, 0.3);
 }
 
 .btnOutline {
-    background: transparent;
-    color: white;
-    padding: 1.125rem 3rem;
-    border-radius: 10px;
+    background: white;
+    color: var(--color-foreground);
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
     font-weight: 800;
     font-size: 1.125rem;
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid var(--color-border);
     transition: all 0.3s ease;
 }
 
 .btnOutline:hover {
-    border-color: white;
-    background: rgba(255, 255, 255, 0.05);
+    background: #f1f5f9;
+    transform: translateY(-2px);
 }
 
 /* Responsiveness */

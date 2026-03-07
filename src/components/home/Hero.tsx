@@ -25,7 +25,7 @@ export const Hero = () => {
                         <Link href="/login">
                             <Button variant="primary">{t.hero.btnPrimary}</Button>
                         </Link>
-                        <Link href="#services">
+                        <Link href="/servicios">
                             <Button variant="secondary">{t.hero.btnSecondary}</Button>
                         </Link>
                     </div>
