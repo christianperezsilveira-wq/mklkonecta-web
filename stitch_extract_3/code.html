@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Dark - MKL Konecta</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#E30613", // Vibrant Red from logo
+                        "background-dark": "#050505", // Deep black
+                        "surface-dark": "#0F0F0F", // Slightly lighter black for cards
+                        "border-dark": "#1F1F1F",
+                        "text-muted": "#A0A0A0",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E30613;
+            border-radius: 10px;
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            background: rgba(5, 5, 5, 0.85);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="flex h-screen overflow-hidden">
+<aside class="w-64 flex-shrink-0 flex flex-col bg-background-dark border-r border-border-dark">
+<div class="p-6 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+<svg class="text-white size-6" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<div>
+<h1 class="text-white text-lg font-bold leading-none tracking-tight">MKL Konecta</h1>
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Intranet Red</span>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto custom-scrollbar">
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white shadow-md shadow-primary/10">
+<span class="material-symbols-outlined fill-1">dashboard</span>
+<p class="text-sm font-semibold">Dashboard</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-white/5 hover:text-white transition-all group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">construction</span>
+<p class="text-sm font-medium">Herramientas</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-white/5 hover:text-white transition-all group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">groups</span>
+<p class="text-sm font-medium">Comunidad</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-white/5 hover:text-white transition-all group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">description</span>
+<p class="text-sm font-medium">Recursos Humanos</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-white/5 hover:text-white transition-all group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">support_agent</span>
+<p class="text-sm font-medium">Soporte IT</p>
+</div>
+<div class="pt-4 pb-2">
+<p class="px-3 text-[10px] font-bold text-gray-600 uppercase tracking-widest">Personal</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-white/5 hover:text-white transition-all group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">payments</span>
+<p class="text-sm font-medium">Mis Nóminas</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-white/5 hover:text-white transition-all group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">calendar_month</span>
+<p class="text-sm font-medium">Mi Horario</p>
+</div>
+</nav>
+<div class="p-4 border-t border-border-dark">
+<button class="flex w-full items-center justify-center gap-2 rounded-lg bg-surface-dark py-2.5 text-white text-sm font-bold border border-border-dark hover:border-primary/50 hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined text-sm text-primary group-hover:text-white">logout</span>
+<span>Cerrar Sesión</span>
+</button>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-background-dark">
+<header class="h-16 flex items-center justify-between px-8 border-b border-border-dark glass-effect sticky top-0 z-10">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-dark border-none focus:ring-1 focus:ring-primary/50 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-gray-600" placeholder="Buscar herramientas..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 ml-8">
+<button class="p-2 text-text-muted hover:text-primary relative transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2.5 right-2.5 size-1.5 bg-primary rounded-full ring-2 ring-background-dark"></span>
+</button>
+<button class="p-2 text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mail</span>
+</button>
+<div class="h-8 w-px bg-border-dark mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-white leading-none">Carlos Mendoza</p>
+<p class="text-[10px] text-primary font-bold uppercase tracking-wider mt-0.5">Agente Senior</p>
+</div>
+<div class="size-10 rounded-full border border-border-dark p-0.5 overflow-hidden ring-1 ring-primary/20">
+<img class="w-full h-full rounded-full object-cover" data-alt="User profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGeazdQDCraiCHRlPLaJWOqCbCa26eFLbtQGOO-3w1JUjPUZZibma_gGlK39spjdWjXRWOFBcy7R0EnRZeMyXMWQbDeaB35OYp2fnWLmgdCFg9scuam3uaGAZ05UqqEgd29aYY-DdqxxNZK2Rv6bGTW8wUatYHVY8IODKTgWFnJd9mOql2zzYLjtkER9Oi0xiDyHypebJSsu1YJPAZMq7YgfYB8WXBcrn-BgFRQF3aKQ-t_4Yheo6cI5hFne2Rug6N6fg1I21oozY"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+<div class="mb-10">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="text-white text-4xl font-black tracking-tight leading-tight">Bienvenido, Carlos</h2>
+<p class="text-text-muted text-base mt-2 max-w-lg">Panel central de gestión. Tu entorno de trabajo optimizado con la identidad de MKL Konecta.</p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-dark border border-border-dark p-3 rounded-xl flex items-center gap-4 min-w-[200px] shadow-sm">
+<div class="size-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined fill-1">timer</span>
+</div>
+<div>
+<p class="text-[10px] text-text-muted font-bold uppercase tracking-widest">Estado de Turno</p>
+<p class="text-sm font-bold text-white">Activo: 04h 32m</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 space-y-10">
+<div>
+<div class="flex items-center justify-between mb-6 px-1">
+<h3 class="text-xl font-bold text-white flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">grid_view</span>
+                                    Herramientas de Software
+                                </h3>
+<button class="text-xs font-bold text-primary hover:text-white transition-colors">Gestionar accesos</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="group cursor-pointer bg-surface-dark border border-border-dark rounded-xl p-5 hover:border-primary/40 transition-all hover:translate-y-[-2px] shadow-sm">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">hub</span>
+</div>
+<p class="text-white font-bold mb-1 text-sm">CRM Interno</p>
+<p class="text-[10px] text-text-muted font-medium">Gestión de Clientes</p>
+</div>
+<div class="group cursor-pointer bg-surface-dark border border-border-dark rounded-xl p-5 hover:border-primary/40 transition-all hover:translate-y-[-2px] shadow-sm">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">call</span>
+</div>
+<p class="text-white font-bold mb-1 text-sm">Telefonía Cloud</p>
+<p class="text-[10px] text-text-muted font-medium">Sistemas Avaya</p>
+</div>
+<div class="group cursor-pointer bg-surface-dark border border-border-dark rounded-xl p-5 hover:border-primary/40 transition-all hover:translate-y-[-2px] shadow-sm">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">event_available</span>
+</div>
+<p class="text-white font-bold mb-1 text-sm">Gestión Turnos</p>
+<p class="text-[10px] text-text-muted font-medium">Horarios &amp; WFM</p>
+</div>
+<div class="group cursor-pointer bg-surface-dark border border-border-dark rounded-xl p-5 hover:border-primary/40 transition-all hover:translate-y-[-2px] shadow-sm">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+</div>
+<p class="text-white font-bold mb-1 text-sm">Konecta Academy</p>
+<p class="text-[10px] text-text-muted font-medium">E-learning Portal</p>
+</div>
+<div class="group cursor-pointer bg-surface-dark border border-border-dark rounded-xl p-5 hover:border-primary/40 transition-all hover:translate-y-[-2px] shadow-sm">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">mail</span>
+</div>
+<p class="text-white font-bold mb-1 text-sm">Outlook Web</p>
+<p class="text-[10px] text-text-muted font-medium">Correo Corp.</p>
+</div>
+<div class="group cursor-pointer bg-surface-dark border border-border-dark rounded-xl p-5 hover:border-primary/40 transition-all hover:translate-y-[-2px] shadow-sm">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">shield</span>
+</div>
+<p class="text-white font-bold mb-1 text-sm">CyberSafe</p>
+<p class="text-[10px] text-text-muted font-medium">Seguridad IT</p>
+</div>
+<div class="group cursor-pointer bg-surface-dark border border-border-dark rounded-xl p-5 hover:border-primary/40 transition-all hover:translate-y-[-2px] shadow-sm">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">cloud_done</span>
+</div>
+<p class="text-white font-bold mb-1 text-sm">OneDrive</p>
+<p class="text-[10px] text-text-muted font-medium">Almacenamiento</p>
+</div>
+<div class="group cursor-pointer border border-dashed border-border-dark rounded-xl p-5 flex flex-col items-center justify-center text-text-muted hover:border-primary/50 hover:text-primary transition-all shadow-sm">
+<span class="material-symbols-outlined text-3xl mb-2">add_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Añadir Tool</p>
+</div>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-6 px-1">
+<h3 class="text-xl font-bold text-white flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">diversity_1</span>
+                                    Nuestra Cultura
+                                </h3>
+<button class="text-xs font-bold text-primary hover:text-white transition-colors">Ver todo el muro</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="h-72 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Employees high-fiving" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW6X--kjOvF2ReNO948hjT11I8Vpvlf4bgBmBVqvzYcjqQSq42JccKzRo4nbj81ICr5j7niaz-7PeDi7T__XrbaLMBhHPjWNW77YBqAAOo3FxkRkJ-v3aJcCW4zyqJChMY21KLGGa3oqsRudeFun33041d7hV5g53t96468k0QndRCWrhp5Phf54aJ6tiPJ47xLwInKt_DRDw2r0vvUHD9USmvn0Py5zd-oayUSJT4MQv05umSNmd96_ufVe1Jz8hAa0VB_SAZE8M"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 flex flex-col justify-end">
+<span class="text-[10px] bg-primary text-white px-2 py-0.5 rounded w-fit font-bold uppercase mb-2">Novedad</span>
+<p class="text-white text-lg font-bold">Inauguración Nueva Sede Norte</p>
+</div>
+</div>
+<div class="grid grid-rows-2 gap-4">
+<div class="rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPVLs2j4_SHRhi3JqSqwu6X_l6ubRxPAkSWkm5J4TFb_YW93NSfFrQiZfm119vFvvV7Z94LYi7_Tg0RpAWBu9aSBsZKibLGBLxKvB2q0UZELDnLlwg4xZ_EVKDo2eLes1xAKEa_SPZrTwgnR6bUbHjSuNq21rsLlqOOi45rzJq-jSzcTXSmxYxM4_HR3CXOgx9UUpHXi769RJS7pvWVMjmDV2-mRdiWY2H7d8U8v2ylT2aLKNzX3bzA3TeAmQRtzcmFx5vdAGLa5g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex flex-col justify-end">
+<p class="text-white text-sm font-bold">Nuevos Beneficios 2024</p>
+</div>
+</div>
+<div class="rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Workshop session" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUJ3ki4cPvZv2QQ7hoAe6S0_QbqNLfrTD8BDN1JCnIONGd5Lw8ZBIOS3tG6so0YJSarvdGVEG3SkR3NlglYVb4FZbHtTg10KvEw5LtnS-bU7SkOeER-mzYgHM1ykftf7lZuLwcxpW-eA5uuaoKIPynBrGb9csawb_BTpyZXoPQfJvRflhsRUWKJWA5oVQ6XA3Ae_yjVe3YxbRtsjURz0G_U_WBgtzATjPUEiUGApWaaGktMAaHmIWoL2XBpOW5_vC5euEkGg0pJps"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex flex-col justify-end">
+<p class="text-white text-sm font-bold">Workshop de Liderazgo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 space-y-8">
+<div class="bg-surface-dark border border-border-dark rounded-xl overflow-hidden shadow-sm">
+<div class="p-4 border-b border-border-dark flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">link</span>
+<h3 class="font-bold text-white text-sm">Links de Interés</h3>
+</div>
+<div class="divide-y divide-border-dark">
+<a class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary transition-colors">receipt_long</span>
+<span class="text-sm font-medium">Portal de Nómina</span>
+</div>
+<span class="material-symbols-outlined text-sm text-gray-700 group-hover:text-white">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary transition-colors">medical_services</span>
+<span class="text-sm font-medium">Seguro Médico Prepago</span>
+</div>
+<span class="material-symbols-outlined text-sm text-gray-700 group-hover:text-white">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary transition-colors">fact_check</span>
+<span class="text-sm font-medium">Evaluación de Desempeño</span>
+</div>
+<span class="material-symbols-outlined text-sm text-gray-700 group-hover:text-white">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary transition-colors">campaign</span>
+<span class="text-sm font-medium">Canal Ético MKL</span>
+</div>
+<span class="material-symbols-outlined text-sm text-gray-700 group-hover:text-white">chevron_right</span>
+</a>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-5 shadow-sm">
+<div class="flex items-center gap-2 mb-4 text-primary font-bold text-sm uppercase tracking-widest">
+<span class="material-symbols-outlined fill-1 text-base">report</span>
+<span>Avisos Importantes</span>
+</div>
+<div class="space-y-3">
+<div class="p-3 rounded-lg bg-primary/5 border-l-2 border-primary">
+<p class="text-[10px] font-bold text-primary uppercase mb-1">Mantenimiento</p>
+<p class="text-xs text-white">CRM fuera de línea mañana 02:00 AM.</p>
+</div>
+<div class="p-3 rounded-lg bg-white/5 border-l-2 border-gray-600">
+<p class="text-[10px] font-bold text-text-muted uppercase mb-1">Informativo</p>
+<p class="text-xs text-white">Actualización de Windows disponible.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary rounded-xl p-6 text-white relative overflow-hidden group shadow-lg shadow-primary/10">
+<div class="relative z-10">
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-80">Empleado del Mes</p>
+<h4 class="text-xl font-black mt-1">¡Felicidades, Carlos!</h4>
+<p class="text-xs mt-3 opacity-90 leading-relaxed font-medium">Tu compromiso es la clave de nuestro éxito. ¡Gracias por elevar el estándar de MKL!</p>
+<button class="mt-5 bg-white text-primary px-5 py-2 rounded-lg text-xs font-bold hover:bg-gray-100 transition-all transform hover:scale-105 active:scale-95">
+                                    Ver Recompensas
+                                </button>
+</div>
+<span class="material-symbols-outlined absolute -right-6 -bottom-6 text-[180px] opacity-10 transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110">military_tech</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

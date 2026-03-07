@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | MKL Konecta</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f20d0d",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#221010",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display">
+<!-- Top Navigation Bar -->
+<header class="w-full bg-white dark:bg-[#1c0d0d] border-b border-solid border-[#e8cece] dark:border-[#3d1f1f] px-6 md:px-10 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 text-[#1c0d0d] dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">MKL Konecta</h2>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold transition-colors hover:bg-primary/90">
+<span class="truncate">Soporte</span>
+</button>
+</header>
+<main class="flex-1 flex items-center justify-center p-4">
+<div class="w-full max-w-[1000px] bg-white dark:bg-[#1c0d0d] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+<!-- Left Side: Branding/Image -->
+<div class="hidden md:flex md:w-1/2 relative bg-primary items-center justify-center p-12 text-white">
+<div class="absolute inset-0 opacity-20 bg-center bg-cover" data-alt="Modern corporate office interior with glass walls" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAoow0_cQkIXMlkRihTs49fmB2jz7CVQfazQWtwry3jL86KtTT2h5VhGWm2SyLnw1nY0cmZKGbg7ckklDVJnyYYCIWSWOIbnbrc1COqBuYEnK7qjdQOEuTxH95mSVem7AlrGe_uQuFX0G8xXgbJAJAXlHI332y_JcZQkLcEk_BIwQqR-32YwFGbBwqj0XYksMJhxbmZGFFCFgazBGapYQ-OFk8j1OH0VWAJ78qKQGgzqzwlthNUMh5tl9UBaMRcLu5Nmv1QfXS5qj4');">
+</div>
+<div class="relative z-10 text-center">
+<div class="mb-8 flex justify-center">
+<span class="material-symbols-outlined text-[80px]">security</span>
+</div>
+<h2 class="text-4xl font-bold mb-4">MKL Konecta</h2>
+<p class="text-lg text-white/80 max-w-sm mx-auto">
+                        Conectando talento y tecnología en una plataforma segura y moderna.
+                    </p>
+</div>
+</div>
+<!-- Right Side: Login Form -->
+<div class="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+<div class="mb-10 text-center md:text-left">
+<h1 class="text-[#1c0d0d] dark:text-white text-3xl font-bold mb-2">Bienvenido</h1>
+<p class="text-[#9c4949] dark:text-[#b48d8d] text-base">Inicie sesión para continuar al portal corporativo</p>
+</div>
+<form class="space-y-6">
+<!-- Username Field -->
+<div class="flex flex-col gap-2">
+<label class="text-[#1c0d0d] dark:text-white text-sm font-semibold">Correo Electrónico o Usuario</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#9c4949]">person</span>
+<input class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-[#e8cece] dark:border-[#3d1f1f] bg-white dark:bg-[#221010] text-[#1c0d0d] dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-[#9c4949]/50" placeholder="ejemplo@konecta.com" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<label class="text-[#1c0d0d] dark:text-white text-sm font-semibold">Contraseña</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#9c4949]">lock</span>
+<input class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-[#e8cece] dark:border-[#3d1f1f] bg-white dark:bg-[#221010] text-[#1c0d0d] dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-[#9c4949]/50" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Options -->
+<div class="flex items-center justify-between py-1">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="rounded border-[#e8cece] text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-[#1c0d0d] dark:text-white">Recordarme</span>
+</label>
+<a class="text-sm font-semibold text-[#1c0d0d] dark:text-white hover:text-primary transition-colors underline decoration-primary/30" href="#">¿Olvidó su contraseña?</a>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 active:scale-[0.98]" type="submit">
+                        Iniciar Sesión
+                    </button>
+</form>
+<!-- Additional Links -->
+<div class="mt-10 pt-8 border-t border-[#e8cece] dark:border-[#3d1f1f] flex flex-col items-center gap-4">
+<p class="text-[#9c4949] dark:text-[#b48d8d] text-sm">¿No tiene una cuenta todavía?</p>
+<button class="w-full border-2 border-[#1c0d0d] dark:border-white text-[#1c0d0d] dark:text-white py-3 rounded-lg font-bold hover:bg-[#1c0d0d] dark:hover:bg-white hover:text-white dark:hover:text-[#1c0d0d] transition-all">
+                        Solicitar Acceso
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="py-6 text-center">
+<p class="text-[#9c4949] dark:text-[#b48d8d] text-xs">
+            © 2024 MKL Konecta. Todos los derechos reservados. | Sistema de Acceso Seguro
+        </p>
+</footer>
+</body></html>

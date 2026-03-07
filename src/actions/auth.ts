@@ -156,8 +156,8 @@ export const newVerification = async (token: string) => {
 };
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
-    if (!process.env.RESEND_API_KEY) {
-        return { error: "Error de configuración: API key de correo no encontrada." };
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+        return { error: "Error de configuración: Credenciales de correo (SMTP) no encontradas." };
     }
 
     try {
@@ -188,12 +188,8 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
         );
 
         if (result?.error) {
-            console.error("Resend Error Detail:", result.error);
-            // Si es un error de dominio no verificado, lo informamos
-            if (JSON.stringify(result.error).includes("verify")) {
-                return { error: "Error de Envío: Debe verificar su dominio en el panel de Resend para enviar a correos externos." };
-            }
-            return { error: `Error de envío (${result.error.name}): ${result.error.message}` };
+            console.error("SMTP Error Detail:", result.error);
+            return { error: "No se pudo enviar el correo. Verifique que SMTP esté activo en Zoho y que la contraseña sea correcta." };
         }
 
         return { success: "Correo de restablecimiento enviado correctamente" };
