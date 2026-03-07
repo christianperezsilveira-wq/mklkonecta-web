@@ -16,8 +16,21 @@ export const NewPasswordForm = () => {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
 
+    // Si no hay token al cargar la página, mostramos error inmediatamente
+    React.useEffect(() => {
+        if (!token) {
+            setError("Falta el identificador de seguridad (Token). Por favor, use el enlace de su correo.");
+        }
+    }, [token]);
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!token) {
+            setError("No se puede procesar sin un token válido.");
+            return;
+        }
+
         setError("");
         setSuccess("");
 
