@@ -156,6 +156,10 @@ export const newVerification = async (token: string) => {
 };
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
+    if (!process.env.RESEND_API_KEY) {
+        return { error: "Error de configuración: API key de correo no encontrada." };
+    }
+
     try {
         const validatedFields = ResetSchema.safeParse(values);
 

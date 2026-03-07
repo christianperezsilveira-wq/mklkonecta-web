@@ -2,14 +2,18 @@
 
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const sendContactEmail = async (formData: {
     name: string;
     email: string;
     company?: string;
     message: string;
 }) => {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    if (!process.env.RESEND_API_KEY) {
+        console.error("❌ RESEND_API_KEY is missing in environment variables.");
+        return { error: "Error de configuración: API key no encontrada en el servidor." };
+    }
     try {
         const { name, email, company, message } = formData;
 

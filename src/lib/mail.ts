@@ -1,10 +1,16 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const getResend = () => {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+        throw new Error("RESEND_API_KEY is not defined");
+    }
+    return new Resend(apiKey);
+};
 
 export const sendPendingApprovalEmail = async (email: string, name: string) => {
     console.log(`📧 Enviando email de registro recibido a: ${email}`);
-    const result = await resend.emails.send({
+    const result = await getResend().emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "Registro Recibido - MKL Konecta",
@@ -26,7 +32,7 @@ export const sendApprovalEmail = async (email: string, name: string) => {
     const loginLink = `http://${process.env.VERCEL_URL || "localhost:3000"}/login`;
 
     console.log(`📧 Enviando email de aprobación a: ${email}`);
-    const result = await resend.emails.send({
+    const result = await getResend().emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "¡Cuenta Aprobada! - MKL Konecta",
@@ -50,7 +56,7 @@ export const sendVerificationEmail = async (
     const confirmLink = `http://${process.env.VERCEL_URL || "localhost:3000"}/auth/new-verification?token=${token}`;
 
     console.log(`📧 Enviando email de verificación a: ${email}`);
-    const result = await resend.emails.send({
+    const result = await getResend().emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "Confirma tu cuenta - MKL Konecta",
@@ -72,7 +78,7 @@ export const sendPasswordResetEmail = async (
     const resetLink = `${domain}/auth/new-password?token=${token}`;
 
     console.log(`📧 Enviando email de reset de password a: ${email}`);
-    const result = await resend.emails.send({
+    const result = await getResend().emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "Restablecer contraseña - MKL Konecta",
