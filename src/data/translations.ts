@@ -77,7 +77,7 @@ export const translations = {
             title: 'Hablemos de tu próximo gran proyecto',
             description: 'Estamos listos para diseñar la solución de outsourcing y tecnología para tu empresa.',
             infoTitle: 'Información Corporativa',
-            infoSubtitle: 'Estamos ubicados en el corazón financiero, listos para atender las necesidades de clientes globales.',
+            infoSubtitle: 'Estamos ubicados en el centro de Asunción',
             formTitle: 'Envíanos un Mensaje',
             formName: 'Nombre Completo',
             formEmail: 'Correo Corporativo',
