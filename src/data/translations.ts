@@ -6,7 +6,7 @@ export const translations = {
             services: 'Servicios',
             about: 'Nosotros',
             contact: 'Contacto',
-            login: 'Acceso Empleados'
+            login: 'Acceso Portal'
         },
         hero: {
             badge: 'Outsourcing Premium',
@@ -140,7 +140,7 @@ export const translations = {
             services: 'Services',
             about: 'About',
             contact: 'Contact',
-            login: 'Employee Access'
+            login: 'Access Portal'
         },
         hero: {
             badge: 'Premium Outsourcing',
