@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Footer.module.css';
 import { useLanguage } from '@/context/LanguageContext';
+import { WhatsAppButton } from './WhatsAppButton';
 
 export const Footer = () => {
     const { t } = useLanguage();
@@ -105,6 +106,8 @@ export const Footer = () => {
                     <a href="#">{t.footer.bottomLinks.cookies}</a>
                 </div>
             </div>
+
+            <WhatsAppButton />
         </footer>
     );
 };

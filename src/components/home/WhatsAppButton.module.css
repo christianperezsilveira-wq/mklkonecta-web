@@ -1,0 +1,112 @@
+.whatsappContainer {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.whatsappButton {
+    pointer-events: auto;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.whatsappButton:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.6);
+}
+
+.whatsappButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.whatsappButton:hover::before {
+    opacity: 1;
+}
+
+.whatsappIcon {
+    width: 32px;
+    height: 32px;
+    fill: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.tooltip {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 10px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.whatsappContainer:hover .tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+.whatsappButton {
+    animation: pulse 2s infinite;
+}
+
+@media (max-width: 768px) {
+    .whatsappContainer {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .whatsappButton {
+        width: 50px;
+        height: 50px;
+    }
+
+    .tooltip {
+        display: none;
+        /* Hide tooltip on mobile to save space */
+    }
+}
