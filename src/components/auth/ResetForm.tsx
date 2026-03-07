@@ -20,12 +20,14 @@ export const ResetForm = () => {
         const formData = new FormData(e.target as HTMLFormElement);
         const email = formData.get("email") as string;
 
-        startTransition(() => {
-            reset({ email })
-                .then((data) => {
-                    setError(data?.error);
-                    setSuccess(data?.success);
-                });
+        startTransition(async () => {
+            try {
+                const data = await reset({ email });
+                setError(data?.error);
+                setSuccess(data?.success);
+            } catch (error) {
+                setError("Ocurrió un error inesperado. Inténtelo más tarde.");
+            }
         });
     };
 

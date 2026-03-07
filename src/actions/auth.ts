@@ -162,7 +162,8 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
         return { error: "Email inválido" };
     }
 
-    const { email } = validatedFields.data;
+    const { email: rawEmail } = validatedFields.data;
+    const email = rawEmail.toLowerCase();
 
     const existingUser = await db.user.findUnique({
         where: { email }
