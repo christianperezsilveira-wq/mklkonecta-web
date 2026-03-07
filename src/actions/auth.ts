@@ -173,10 +173,14 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
     }
 
     const passwordResetToken = await generatePasswordResetToken(email);
-    await sendPasswordResetEmail(
+    const result = await sendPasswordResetEmail(
         passwordResetToken.email,
         passwordResetToken.token,
     );
+
+    if (result?.error) {
+        return { error: "No se pudo enviar el correo. Verifique la configuración de Resend." };
+    }
 
     return { success: "Correo de restablecimiento enviado" };
 };

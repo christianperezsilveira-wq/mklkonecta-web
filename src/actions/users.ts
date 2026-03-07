@@ -157,10 +157,14 @@ export const adminTriggerPasswordReset = async (userId: string) => {
         }
 
         const passwordResetToken = await generatePasswordResetToken(user.email);
-        await sendPasswordResetEmail(
+        const result = await sendPasswordResetEmail(
             passwordResetToken.email,
             passwordResetToken.token,
         );
+
+        if (result?.error) {
+            return { error: `Error de Resend: ${JSON.stringify(result.error)}` };
+        }
 
         return { success: "Correo de restablecimiento enviado al usuario" };
     } catch (error) {

@@ -3,7 +3,8 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendPendingApprovalEmail = async (email: string, name: string) => {
-    await resend.emails.send({
+    console.log(`📧 Enviando email de registro recibido a: ${email}`);
+    const result = await resend.emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "Registro Recibido - MKL Konecta",
@@ -17,12 +18,15 @@ export const sendPendingApprovalEmail = async (email: string, name: string) => {
             <p>El equipo de MKL Konecta</p>
         `
     });
+    if (result.error) console.error("❌ Error enviando email de registro:", result.error);
+    return result;
 };
 
 export const sendApprovalEmail = async (email: string, name: string) => {
     const loginLink = `http://${process.env.VERCEL_URL || "localhost:3000"}/login`;
 
-    await resend.emails.send({
+    console.log(`📧 Enviando email de aprobación a: ${email}`);
+    const result = await resend.emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "¡Cuenta Aprobada! - MKL Konecta",
@@ -34,6 +38,8 @@ export const sendApprovalEmail = async (email: string, name: string) => {
             <a href="${loginLink}" style="background-color: #E60000; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Acceder al Portal</a>
         `
     });
+    if (result.error) console.error("❌ Error enviando email de aprobación:", result.error);
+    return result;
 };
 
 // Mantener por compatibilidad si es necesario, pero el flujo principal ahora usará las de arriba
@@ -43,7 +49,8 @@ export const sendVerificationEmail = async (
 ) => {
     const confirmLink = `http://${process.env.VERCEL_URL || "localhost:3000"}/auth/new-verification?token=${token}`;
 
-    await resend.emails.send({
+    console.log(`📧 Enviando email de verificación a: ${email}`);
+    const result = await resend.emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "Confirma tu cuenta - MKL Konecta",
@@ -53,6 +60,8 @@ export const sendVerificationEmail = async (
             <a href="${confirmLink}">Confirmar Cuenta</a>
         `
     });
+    if (result.error) console.error("❌ Error enviando email de verificación:", result.error);
+    return result;
 };
 
 export const sendPasswordResetEmail = async (
@@ -62,7 +71,8 @@ export const sendPasswordResetEmail = async (
     const domain = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
     const resetLink = `${domain}/auth/new-password?token=${token}`;
 
-    await resend.emails.send({
+    console.log(`📧 Enviando email de reset de password a: ${email}`);
+    const result = await resend.emails.send({
         from: "onboarding@resend.dev",
         to: email,
         subject: "Restablecer contraseña - MKL Konecta",
@@ -75,4 +85,6 @@ export const sendPasswordResetEmail = async (
             <p>Si no solicitaste esto, puedes ignorar este correo.</p>
         `
     });
+    if (result.error) console.error("❌ Error enviando email de reset:", result.error);
+    return result;
 };
