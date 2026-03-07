@@ -34,7 +34,7 @@ export const sendPendingApprovalEmail = async (email: string, name: string) => {
         return { success: true };
     } catch (error) {
         console.error("❌ Error SMTP (Registro):", error);
-        return { error };
+        return { error: error instanceof Error ? error.message : "Error desconocido" };
     }
 };
 
@@ -59,7 +59,7 @@ export const sendApprovalEmail = async (email: string, name: string) => {
         return { success: true };
     } catch (error) {
         console.error("❌ Error SMTP (Aprobación):", error);
-        return { error };
+        return { error: error instanceof Error ? error.message : "Error desconocido" };
     }
 };
 
@@ -82,7 +82,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         return { success: true };
     } catch (error) {
         console.error("❌ Error SMTP (Verificación):", error);
-        return { error };
+        return { error: error instanceof Error ? error.message : "Error desconocido" };
     }
 };
 
@@ -109,7 +109,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
         return { success: true };
     } catch (error) {
         console.error("❌ Error SMTP (Reset):", error);
-        return { error };
+        return { error: error instanceof Error ? error.message : "Error desconocido" };
     }
 };
 
@@ -140,6 +140,6 @@ export const sendContactEmail = async (formData: {
         return { success: true };
     } catch (error) {
         console.error("❌ Error SMTP (Contact):", error);
-        return { error };
+        return { error: error instanceof Error ? error.message : "Error desconocido" };
     }
 };
