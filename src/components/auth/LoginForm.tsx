@@ -74,7 +74,7 @@ export const LoginForm = () => {
                     <input type="checkbox" style={{ accentColor: '#FF0000' }} />
                     Recordar equipo
                 </label>
-                <Link href="#" style={{ color: '#999', textDecoration: 'none' }}>
+                <Link href="/auth/reset" style={{ color: '#999', textDecoration: 'none' }}>
                     ¿Olvidó su contraseña?
                 </Link>
             </div>

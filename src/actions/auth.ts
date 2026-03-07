@@ -5,8 +5,8 @@ import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail, sendPendingApprovalEmail } from "@/lib/mail";
+import { generateVerificationToken, generatePasswordResetToken } from "@/lib/tokens";
+import { sendVerificationEmail, sendPendingApprovalEmail, sendPasswordResetEmail } from "@/lib/mail";
 
 // Schema de Validación
 const RegisterSchema = z.object({
@@ -18,6 +18,18 @@ const RegisterSchema = z.object({
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(1)
+});
+
+export const ResetSchema = z.object({
+    email: z.string().email({
+        message: "Email es requerido"
+    }),
+});
+
+export const NewPasswordSchema = z.object({
+    password: z.string().min(6, {
+        message: "Mínimo 6 caracteres requeridos"
+    }),
 });
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
@@ -141,6 +153,84 @@ export const newVerification = async (token: string) => {
     });
 
     return { success: "¡Email verificado! Ya puedes iniciar sesión." };
+};
+
+export const reset = async (values: z.infer<typeof ResetSchema>) => {
+    const validatedFields = ResetSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        return { error: "Email inválido" };
+    }
+
+    const { email } = validatedFields.data;
+
+    const existingUser = await db.user.findUnique({
+        where: { email }
+    });
+
+    if (!existingUser) {
+        return { error: "Email no encontrado" };
+    }
+
+    const passwordResetToken = await generatePasswordResetToken(email);
+    await sendPasswordResetEmail(
+        passwordResetToken.email,
+        passwordResetToken.token,
+    );
+
+    return { success: "Correo de restablecimiento enviado" };
+};
+
+export const newPassword = async (
+    values: z.infer<typeof NewPasswordSchema>,
+    token?: string | null,
+) => {
+    if (!token) {
+        return { error: "¡Token ausente!" };
+    }
+
+    const validatedFields = NewPasswordSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        return { error: "Campos inválidos" };
+    }
+
+    const { password } = validatedFields.data;
+
+    const existingToken = await db.passwordResetToken.findUnique({
+        where: { token }
+    });
+
+    if (!existingToken) {
+        return { error: "¡Token inválido!" };
+    }
+
+    const hasExpired = new Date(existingToken.expires) < new Date();
+
+    if (hasExpired) {
+        return { error: "¡El token ha expirado!" };
+    }
+
+    const existingUser = await db.user.findUnique({
+        where: { email: existingToken.email }
+    });
+
+    if (!existingUser) {
+        return { error: "¡El email no existe!" };
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await db.user.update({
+        where: { id: existingUser.id },
+        data: { password: hashedPassword },
+    });
+
+    await db.passwordResetToken.delete({
+        where: { id: existingToken.id }
+    });
+
+    return { success: "¡Contraseña actualizada!" };
 };
 
 export const logout = async () => {

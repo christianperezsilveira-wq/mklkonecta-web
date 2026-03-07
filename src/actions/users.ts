@@ -3,7 +3,8 @@
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { sendApprovalEmail } from "@/lib/mail";
+import { sendApprovalEmail, sendPasswordResetEmail } from "@/lib/mail";
+import { generatePasswordResetToken } from "@/lib/tokens";
 
 // 🔒 Verificar que el usuario sea ADMIN
 const checkAdmin = async () => {
@@ -141,5 +142,28 @@ export const adminUpdateUser = async (userId: string, data: { name: string; emai
         return { success: "Usuario actualizado correctamente" };
     } catch (error) {
         return { error: "Error al actualizar usuario" };
+    }
+};
+
+export const adminTriggerPasswordReset = async (userId: string) => {
+    try {
+        await checkAdmin();
+        const user = await db.user.findUnique({
+            where: { id: userId }
+        });
+
+        if (!user || !user.email) {
+            return { error: "Usuario no encontrado" };
+        }
+
+        const passwordResetToken = await generatePasswordResetToken(user.email);
+        await sendPasswordResetEmail(
+            passwordResetToken.email,
+            passwordResetToken.token,
+        );
+
+        return { success: "Correo de restablecimiento enviado al usuario" };
+    } catch (error) {
+        return { error: "Error al solicitar restablecimiento" };
     }
 };

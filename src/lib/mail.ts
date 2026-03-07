@@ -54,3 +54,25 @@ export const sendVerificationEmail = async (
         `
     });
 };
+
+export const sendPasswordResetEmail = async (
+    email: string,
+    token: string
+) => {
+    const domain = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+    const resetLink = `${domain}/auth/new-password?token=${token}`;
+
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "Restablecer contraseña - MKL Konecta",
+        html: `
+            <h1>MKL Konecta - Restablecer Contraseña</h1>
+            <p>Has solicitado restablecer tu contraseña corporativa.</p>
+            <p>Haz clic en el siguiente enlace para crear una nueva contraseña:</p>
+            <a href="${resetLink}" style="background-color: #E60000; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Restablecer Contraseña</a>
+            <p>Este enlace expirará en 1 hora.</p>
+            <p>Si no solicitaste esto, puedes ignorar este correo.</p>
+        `
+    });
+};

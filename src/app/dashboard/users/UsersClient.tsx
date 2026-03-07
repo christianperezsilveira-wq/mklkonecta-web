@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styles from './users.module.css';
-import { getUsers, toggleUserApproval, deleteUser, toggleUserRole, adminUpdateUser } from '@/actions/users';
+import { getUsers, toggleUserApproval, deleteUser, toggleUserRole, adminUpdateUser, adminTriggerPasswordReset } from '@/actions/users';
 
 type User = {
     id: string;
@@ -72,6 +72,15 @@ export default function UsersClient() {
 
     const cancelEdit = () => {
         setEditingUserId(null);
+    };
+
+    const handleResetPassword = async (userId: string) => {
+        const res = await adminTriggerPasswordReset(userId);
+        if (res.success) {
+            alert(res.success);
+        } else if (res.error) {
+            alert(res.error);
+        }
     };
 
     const filteredUsers = users.filter(u =>
@@ -206,6 +215,14 @@ export default function UsersClient() {
                                                                 ⛔
                                                             </button>
                                                         )}
+                                                        <button
+                                                            className={styles.actionBtn}
+                                                            onClick={() => handleResetPassword(user.id)}
+                                                            title="Restablecer Contraseña"
+                                                            style={{ color: '#F59E0B' }}
+                                                        >
+                                                            🔑
+                                                        </button>
                                                         <button
                                                             className={styles.actionBtn}
                                                             onClick={() => startEdit(user)}
