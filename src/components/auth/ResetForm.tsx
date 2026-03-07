@@ -26,7 +26,8 @@ export const ResetForm = () => {
                 setError(data?.error);
                 setSuccess(data?.success);
             } catch (error) {
-                setError("Ocurrió un error inesperado. Inténtelo más tarde.");
+                console.error("RESET_FORM_ERROR:", error);
+                setError(error instanceof Error ? error.message : "Error de conexión con el servidor.");
             }
         });
     };
