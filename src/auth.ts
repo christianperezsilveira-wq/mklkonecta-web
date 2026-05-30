@@ -34,6 +34,9 @@ export const {
                         const passwordsMatch = await bcrypt.compare(password, user.password);
 
                         if (passwordsMatch) {
+                            if (!user.isApproved) {
+                                return null;
+                            }
                             return {
                                 id: user.id,
                                 email: user.email,

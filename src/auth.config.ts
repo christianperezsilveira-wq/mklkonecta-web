@@ -11,6 +11,7 @@ export const authConfig = {
             if (token.sub && session.user) {
                 session.user.id = token.sub;
                 session.user.role = token.role as string;
+                session.user.isApproved = token.isApproved as boolean;
             }
             return session;
         },
@@ -18,12 +19,14 @@ export const authConfig = {
             if (user) {
                 token.sub = user.id;
                 token.role = user.role;
+                token.isApproved = user.isApproved;
             }
 
             // Support manual trigger update if needed
             if (trigger === "update" && session) {
                 token.name = session.user.name;
                 token.role = session.user.role;
+                token.isApproved = session.user.isApproved;
             }
             return token;
         }

@@ -5,9 +5,10 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
     const isLoggedIn = !!req.auth;
+    const isApproved = !!req.auth?.user?.isApproved;
     const isOnDashboard = req.nextUrl.pathname.startsWith('/dashboard');
 
-    if (isOnDashboard && !isLoggedIn) {
+    if (isOnDashboard && (!isLoggedIn || !isApproved)) {
         return Response.redirect(new URL('/login', req.nextUrl));
     }
 });
