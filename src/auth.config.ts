@@ -5,6 +5,7 @@ export const authConfig = {
     providers: [], // Providers defined in auth.ts
     pages: {
         signIn: "/login",
+        error: "/login",
     },
     callbacks: {
         async session({ session, token }) {
