@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
@@ -19,7 +20,12 @@ export const {
     signOut,
 } = NextAuth({
     ...authConfig,
+    adapter: PrismaAdapter(db) as any,
     providers: [
+        Google({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        }),
         Credentials({
             async authorize(credentials) {
                 try {
@@ -54,6 +60,23 @@ export const {
             },
         }),
     ],
-    // Let callbacks handle themselves in authConfig or only add here if really needed.
-    // For now, let's keep it simple to avoid crashes.
+    callbacks: {
+        ...authConfig.callbacks,
+        async signIn({ user, account }) {
+            if (account?.provider === "credentials") return true;
+
+            if (account?.provider === "google") {
+                const dbUser = await db.user.findUnique({
+                    where: { email: user.email ?? "" }
+                });
+
+                if (!dbUser || !dbUser.isApproved) {
+                    return "/login?error=PendingApproval";
+                }
+            }
+
+            return true;
+        }
+    }
 });
+

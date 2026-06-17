@@ -232,3 +232,8 @@ export const newPassword = async (
 export const logout = async () => {
     await signOut({ redirectTo: "/login" });
 };
+
+export const loginWithGoogle = async () => {
+    await signIn("google", { redirectTo: "/dashboard" });
+};
+
